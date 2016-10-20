@@ -1,0 +1,59 @@
+\name{ARsens.power}
+\alias{ARsens.power}
+\title{Power of the Anderson-Rubin (1949) Test with Sensitivity Analysis}
+\description{
+\code{ARsens.power} computes the power of sensitivity analysis, which is based on an extension of Anderson-Rubin (1949) test and allows IV be possibly invalid within a certain range.
+}
+\usage{
+ARsens.power(n, k, beta, gamma, Zadj_sq, sigmau, sigmav, rho, 
+             alpha = 0.05, deltarange = deltarange, delta = NULL)
+}
+\arguments{
+  \item{n}{Sample size.}
+  \item{k}{Number of exogenous variables.}
+  \item{beta}{True causal effect minus null hypothesis causal effect.}
+  \item{gamma}{Regression coefficient for effect of instruments on treatment.}
+  \item{Zadj_sq}{Variance of instruments after regressed on the observed variables.}
+  \item{sigmau}{Standard deviation of potential outcome under control (structural error for y).}
+  \item{sigmav}{Standard deviation of error from regressing treatment on instruments.}
+  \item{rho}{Correlation between u (potential outcome under control) and v (error from regressing treatment on instrument).}
+  \item{alpha}{Significance level.}
+  \item{deltarange}{Range of sensitivity allowance. A numeric vector of length 2.}
+  \item{delta}{True value of sensitivity parameter when calculating the power. Usually take delta = 0 for the favorable situation or delta = NULL for unknown delta.}
+}
+\value{Power of sensitivity analysis for the proposed study, which extends the Anderson-Rubin (1949) test with possibly invalid IV. The power formula is derived in Jiang, Small and Zhang (2015).
+}
+\references{Anderson, T.W. and Rubin, H. (1949), Estimation of the parameters of a single equation in a complete system of stochastic equations, Annals of Mathematical Statistics, 20, 46-63.\cr
+Jiang, Y., Zhang, N and Small, D. (2015), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics).}
+\author{Yang Jiang, Hyunseung Kang, and Dylan Small}
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{See also \code{\link{ivmodel}} for details on the instrumental variables model.}
+\examples{
+# Assume we calculate the power of sensitivity analysis in a study with
+# one IV (l=1) and the only exogenous variable is the intercept (k=1). 
+
+# Suppose the difference between the null hypothesis and true causal 
+# effect is 1 (beta=1).
+# The sample size is 250 (n=250), the IV variance is .25 (Zadj_sq =.25).
+# The standard deviation of potential outcome is 1(sigmau= 1). 
+# The coefficient of regressing IV upon exposure is .5 (gamma= .5).
+# The correlation between u and v is assumed to be .5 (rho=.5). 
+# The standard deviation of first stage error is .4 (sigmav=.4). 
+# The significance level for the study is alpha = .05.
+
+# power of sensitivity analysis under the favorable situation, 
+# assuming the range of sensitivity allowance is (-0.1, 0.1)
+ARsens.power(n=250, k=1, beta=1, gamma=.5, Zadj_sq=.25, sigmau=1, 
+     sigmav=.4, rho=.5, alpha = 0.05, deltarange=c(-0.1, 0.1), delta=0)
+
+# power of sensitivity analysis with unknown delta, 
+# assuming the range of sensitivity allowance is (-0.1, 0.1)
+ARsens.power(n=250, k=1, beta=1, gamma=.5, Zadj_sq=.25, sigmau=1, 
+     sigmav=.4, rho=.5, alpha = 0.05, deltarange=c(-0.1, 0.1))
+
+}
+
+\keyword{Anderson-Rubin (1949) test}
+\keyword{Power}
+\keyword{Sensitivity analysis}
