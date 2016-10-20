@@ -16,7 +16,7 @@ To install this package in R from CRAN, run the following command:
 install.packages("ivmodel")
 ```
 
-# Examples
+## Examples
 
 ```R
 library(ivmodel)
@@ -48,7 +48,7 @@ card.model2IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
 card.model2IV
 ```
 
-# References 
+## References 
 Card, D. (1995). "Using Geographic Variations in College Proximity to Estimate the Return
 to Schooling.” In LN Christofides, EK Grant, R Swidinsky (eds.), Aspects of Labor Market
 Behaviour: Essays in Honour of John Vanderkamp. University of Toronto Press. 
