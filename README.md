@@ -49,9 +49,9 @@ card.model2IV
 ```
 
 # References 
-Card, D. (1995) “Using Geographic Variations in College Proximity to Estimate the Return
+Card, D. (1995). "Using Geographic Variations in College Proximity to Estimate the Return
 to Schooling.” In LN Christofides, EK Grant, R Swidinsky (eds.), Aspects of Labor Market
 Behaviour: Essays in Honour of John Vanderkamp. University of Toronto Press. 
 
-Jiang, Y., Kang, H., and Small, D. S. (2015). <a href="ivmodel.pdf">ivmodel: An R Package for Inference and Sensitivity Analysis of Instrumental Variables Models with One Endogenous Variable.</a> Technical Report.
+Jiang, Y., Kang, H., and Small, D. S. (2015). <a href="http://www.stanford.edu/~hskang/ivmodel.pdf">ivmodel: An R Package for Inference and Sensitivity Analysis of Instrumental Variables Models with One Endogenous Variable.</a> Technical Report.
 
