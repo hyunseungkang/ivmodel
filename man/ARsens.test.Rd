@@ -22,7 +22,7 @@ ARsens.test(ivmodel, beta0 = 0, alpha = 0.05, deltarange = NULL)
    \item{deltarange}{The inputted range of sensitivity allowance.}
 }
 \references{Anderson, T.W. and Rubin, H. (1949), Estimation of the parameters of a single equation in a complete system of stochastic equations, Annals of Mathematical Statistics, 20, 46-63.\cr
-Jiang, Y., Zhang, N and Small, D. (2015), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics).
+Wang, X., Jiang, Y., Small, D. and Zhang, N. (2017), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics).
 }
 \author{Yang Jiang, Hyunseung Kang, and Dylan Small}
 \seealso{See also \code{\link{ivmodel}} for details on the instrumental variables model.}

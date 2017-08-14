@@ -21,5 +21,10 @@ fitted.ivmodel <- function(object, ...){
   for(i in 1:ncol(temp)){
     result[, i] <- ivmodel$Yadj + temp[2, i]*(ivmodel$D-ivmodel$Dadj)
   }
-  return(result)
+
+  # NA handling  
+  output = matrix(NA, ncol=ncol(temp), nrow=length(ivmodel$naindex))
+  colnames(output) <- colnames(temp)
+  output[which(ivmodel$naindex), ] = result
+  return(output)
 }

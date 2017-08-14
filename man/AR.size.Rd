@@ -1,7 +1,7 @@
 \name{AR.size}
 \alias{AR.size}
 \title{Sample Size Calculator for the Power of the Anderson-Rubin (1949) Test}
-\description{\code{AR.size} computes the minimum sample size required for achieving certain power of Anderson-Rubin (1949) test.
+\description{\code{AR.size} computes the minimum sample size required for achieving certain power of Anderson-Rubin (1949) test for giving value of parameters.
 }
 \usage{
 AR.size(power, k, l, beta, gamma, Zadj_sq, 

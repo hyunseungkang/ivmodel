@@ -5,10 +5,10 @@
 \code{ivmodelFormula} fits an instrumental variables (IV) model with one endogenous variable and a continuous outcome. It carries out several IV regressions, diagnostics, and tests associated this IV model. It is robust to most data formats, including factor and character data, and can handle very large IV models efficiently.
 }
 \usage{
-ivmodelFormula(formula, data, subset, na.action,
+ivmodelFormula(formula, data, subset,
         beta0=0,alpha=0.05,k=c(0,1), 
         heteroSE = FALSE, clusterID = NULL, 
-        deltarange=NULL)
+        deltarange=NULL, na.action = na.omit)
  }                      	
 \arguments{
   \item{formula}{a formula describing the model to be fitted. For example, the formula \code{Y ~ D + X1 + X2 | Z1 + Z2 + X1 + X2} describes the mode where
@@ -21,7 +21,6 @@ ivmodelFormula(formula, data, subset, na.action,
   \item{data}{an optional data frame containing the variables in the model.
               By default the variables are taken from the environment which \code{ivmodel} is called from}	             
   \item{subset}{an index vector indicating which rows should be used.}
-  \item{na.action}{A function to specify the action to be taken if NAsare found. }
   \item{beta0}{Null value \eqn{\beta_0} for testing null hypothesis \eqn{H_0: \beta = \beta_0} in \code{ivmodel}. Default is $0$.}
   \item{alpha}{The significance level for hypothesis testing. Default is 0.05.}
   \item{k}{A numeric vector of k values for k-class estimation. Default is 0 (OLS) and 1 (TSLS).}
@@ -31,6 +30,7 @@ ivmodelFormula(formula, data, subset, na.action,
   	               there would be two clusters where the first cluster is formed by the first three observations and 
   	               the second cluster is formed by the last three observations. clusterID can be numeric, character, or factor.}
   \item{deltarange}{Range of \eqn{\delta} for sensitivity analysis with the Anderson-Rubin (1949) test.}
+  \item{na.action}{NA handling. There are \code{na.fail}, \code{na.omit}, \code{na.exclude}, \code{na.pass} available. Default is na.omit.}
 }
 \details{
 Let \eqn{Y}, \eqn{D}, \eqn{X}, and \eqn{Z} represent the outcome, endogenous variable, \emph{p} dimensional exogenous covariates, and \emph{L} dimensional instruments, respectively; note that the intercept can be considered as a vector of ones and a part of the exogenous covariates \eqn{X}. \code{ivmodel} assumes the following IV model
@@ -60,7 +60,7 @@ Some procedures (e.g. conditional likelihood ratio test, sensitivity analysis wi
   
   Fuller, W. (1977). Some properties of a modification of the limited information estimator. \emph{Econometrica}, 45, 939-953.  \cr
   
-  Jiang, Y., Zhang, N and Small, D. (2015), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics). \cr
+  Wang, X., Jiang, Y., Small, D. and Zhang, N (2017), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics). \cr
   
   Moreira, M. J. (2003). A conditional likelihood ratio test for structural models. \emph{Econometrica} 71, 1027-1048. \cr
 

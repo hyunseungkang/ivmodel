@@ -6,6 +6,7 @@
 \alias{qrRM}
 \alias{quadSolver}
 \alias{print.ivmodel}
+\alias{summary.ivmodel}
 \description{Internal \code{ivmodel} functions}
 \usage{
   invTwobyTwoSymMatrix(M)
@@ -14,6 +15,7 @@
   qrrank(QR,tol=1e-8)
   qrRM(QR)
   \method{print}{ivmodel}(x,...)
+  \method{summary}{ivmodel}(object,...)
 }
 \author{Yang Jiang, Hyunseung Kang, and Dylan Small}
 \details{
@@ -22,5 +24,6 @@
   \code{condPvalue} is a helper function for the conditional likelihood ratio test in \code{CLR.test}.
   \code{qrrank} and \code{qrRM} are helper functions for the sparse QR package.
   \code{print} is a method to print the ivmodel object.
+  \code{summary} is a method that just returns the input, to align with the standard usage of summary method.
 }
 \keyword{internal}

@@ -24,7 +24,7 @@
 ivmodel <- function(Y,D,Z,X,intercept=TRUE,
                     beta0=0,alpha=0.05,k=c(0,1), 
                     heteroSE = FALSE, clusterID = NULL, 
-                    deltarange=NULL) {
+                    deltarange = NULL, na.action = na.omit) {
     
   # Error checking: check to see if necessary inputs are there!
   if(missing(Y)) stop("Y is missing!")
@@ -58,6 +58,19 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
     allDataOrig = cbind(Y,D,Z,X)
   } else {
     allDataOrig = cbind(Y,D,Z)
+  }
+  
+  # NA handling
+  if(identical(na.action, na.fail) | identical(na.action, na.omit) | identical(na.action, na.pass)){
+    allDataOrig = na.action(allDataOrig)
+    naindex = rep(TRUE, nrow(allDataOrig))
+	naindex[apply(is.na(allDataOrig), 1, any)] = NA
+  }else if(identical(na.action, na.exclude)){
+    naindex = rep(TRUE, nrow(allDataOrig))
+	naindex[apply(is.na(allDataOrig), 1, any)] = NA
+	allDataOrig = na.action(allDataOrig)
+  }else{
+    stop("Wrong input of NA handling!")
   }
   
   # Fit adjustment model
@@ -116,8 +129,10 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
 
   class(ivmodelObject) = "ivmodel"
 
+  ivmodelObject$naindex = naindex
   ivmodelObject$alpha = alpha
   ivmodelObject$beta0 = beta0
+  ivmodelObject$deltarange = deltarange
   
   ivmodelObject$AR = AR.test(ivmodelObject,beta0=beta0,alpha=alpha)
   ivmodelObject$ARsens = ARsens.test(ivmodelObject,beta0=beta0,alpha=alpha,deltarange=deltarange)

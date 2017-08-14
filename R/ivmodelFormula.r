@@ -1,7 +1,7 @@
-ivmodelFormula <- function(formula,data,subset,na.action,
+ivmodelFormula <- function(formula,data,subset,
                             beta0=0,alpha=0.05,k=c(0,1), 
                             heteroSE = FALSE, clusterID = NULL, 
-                            deltarange=NULL) {
+                            deltarange=NULL, na.action = na.omit) {
   if(!inherits(formula,"formula")) {
   	stop("method is only for formula objects!")
   }
@@ -55,7 +55,7 @@ ivmodelFormula <- function(formula,data,subset,na.action,
   	ivmodel(Y=Y,D=D,Z=Z,intercept=intercept,
   	                beta0=beta0,alpha=alpha,k=k,
   	                heteroSE=heteroSE,clusterID=clusterID,
-  	                deltarange=deltarange)
+  	                deltarange=deltarange, na.action=na.action)
   } else {
   	unname(X)
   	X = X[,!whichD,drop=FALSE]
@@ -64,6 +64,6 @@ ivmodelFormula <- function(formula,data,subset,na.action,
   	ivmodel(Y=Y,D=D,Z=Z,intercept=intercept,
   	                beta0=beta0,alpha=alpha,k=k,
   	                heteroSE=heteroSE,clusterID=clusterID,
-  	                deltarange=deltarange)
+  	                deltarange=deltarange, na.action=na.action)
  }           	
 }

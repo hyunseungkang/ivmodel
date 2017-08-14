@@ -8,7 +8,7 @@
 ivmodel(Y, D, Z, X, intercept = TRUE, 
         beta0 = 0, alpha = 0.05, k = c(0, 1), 
         heteroSE = FALSE, clusterID = NULL,
-        deltarange = NULL)
+        deltarange = NULL, na.action = na.omit)
  }                      	
 \arguments{
   \item{Y}{A numeric vector of outcomes.}
@@ -25,6 +25,7 @@ ivmodel(Y, D, Z, X, intercept = TRUE,
   	               there would be two clusters where the first cluster is formed by the first three observations and 
   	               the second cluster is formed by the last three observations. clusterID can be numeric, character, or factor.}
   \item{deltarange}{Range of \eqn{\delta} for sensitivity analysis with the Anderson-Rubin (1949) test.}
+  \item{na.action}{NA handling. There are \code{na.fail}, \code{na.omit}, \code{na.exclude}, \code{na.pass} available. Default is na.omit.}
 }
 \details{
 Let \eqn{Y}, \eqn{D}, \eqn{X}, and \eqn{Z} represent the outcome, endogenous variable, \emph{p} dimensional exogenous covariates, and \emph{L} dimensional instruments, respectively; note that the intercept can be considered as a vector of ones and a part of the exogenous covariates \eqn{X}. \code{ivmodel} assumes the following IV model
@@ -54,7 +55,7 @@ Some procedures (e.g. conditional likelihood ratio test, sensitivity analysis wi
   
   Fuller, W. (1977). Some properties of a modification of the limited information estimator. \emph{Econometrica}, 45, 939-953.  \cr
   
-  Jiang, Y., Zhang, N and Small, D. (2015), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics). \cr
+  Wang, X., Jiang, Y., Small, D. and Zhang, N (2017), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics). \cr
   
   Moreira, M. J. (2003). A conditional likelihood ratio test for structural models. \emph{Econometrica} 71, 1027-1048. \cr
 

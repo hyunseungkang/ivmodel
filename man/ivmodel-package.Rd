@@ -35,7 +35,7 @@ National Longitudinal Survey of Young Men: https://www.nlsinfo.org/investigator/
   
   Moreira, M. J. (2003). A conditional likelihood ratio test for structural models. \emph{Econometrica} 71, 1027-1048.   \cr
   
-  Jiang, Y., Zhang, N and Small, D. (2015), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics). \cr
+  Wang, X., Jiang, Y., Small, D. and Zhang, N (2017), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics). \cr
   
   Sargan, J. D. (1958). The estimation of economic relationships using instrumental variables. \emph{Econometrica} , 393-415. 
 }

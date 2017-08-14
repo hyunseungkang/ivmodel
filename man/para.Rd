@@ -2,7 +2,7 @@
 \alias{para}
 \title{Parameter Estimation from Ivmodel
 }
-\description{\code{para} computes the estimation of several parameters for the \code{ivmodel} object, which could be used in the power calculation.
+\description{\code{para} computes the estimation of several parameters for the \code{ivmodel} object.
 }
 \usage{
 para(ivmodel)

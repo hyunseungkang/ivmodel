@@ -24,7 +24,7 @@ ARsens.power(n, k, beta, gamma, Zadj_sq, sigmau, sigmav, rho,
 \value{Power of sensitivity analysis for the proposed study, which extends the Anderson-Rubin (1949) test with possibly invalid IV. The power formula is derived in Jiang, Small and Zhang (2015).
 }
 \references{Anderson, T.W. and Rubin, H. (1949), Estimation of the parameters of a single equation in a complete system of stochastic equations, Annals of Mathematical Statistics, 20, 46-63.\cr
-Jiang, Y., Zhang, N and Small, D. (2015), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics).}
+Wang, X., Jiang, Y., Small, D. and Zhang, N (2017), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics).}
 \author{Yang Jiang, Hyunseung Kang, and Dylan Small}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
