@@ -28,7 +28,7 @@ KClass = function(ivmodel,
  
   # Extract objects from ivmodel
   Yadj = ivmodel$Yadj; Dadj =ivmodel$Dadj; Zadj = ivmodel$Zadj; ZadjQR = ivmodel$ZadjQR
-  degF = ivmodel$n - ivmodel$p - 1
+  degF = ivmodel$n - ivmodel$p
   
   # Compute k-class estimator
   denom = (sum(Dadj^2) - k * sum(qr.resid(ZadjQR,Dadj)^2))
