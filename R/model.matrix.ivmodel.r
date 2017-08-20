@@ -1,13 +1,13 @@
 model.matrix.ivmodel <- function(object, ...){
   ivmodel <- object
   
-  if(!is.matrix(ivmodel$X) && is.na(ivmodel$X)) {
+  if(is.null(dim(ivmodel$X))) {
     return(ivmodel$D)
   } else {
     intVector = rep(1,nrow(ivmodel$X))
     whichIntIndex = NA
     for(i in ncol(ivmodel$X)) {
-      if(all(ivmodel$X[,i] == interceptVector)) {
+      if(all(ivmodel$X[,i] == intVector)) {
         whichIntIndex = i
         break
       }
