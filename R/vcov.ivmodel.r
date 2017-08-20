@@ -3,7 +3,7 @@ vcov.ivmodel<-function(object, ...){
   vcovmat <- matrix(NA, ncol=2, nrow=0)
   colnames(vcovmat) <- c("k","Endogenous variable")
   if(!is.null(ivmodel$kClass)){
-    temp<-cbind(as.numeric(rownames(ivmodel$kClass$ci),ivmodel$kClass$std.err))
+    temp<-cbind(as.numeric(rownames(ivmodel$kClass$ci)),ivmodel$kClass$std.err)
 	rownames(temp) <- rep("k-class", nrow(temp))
     rownames(temp)[temp[,1]==0] <- "OLS"
     rownames(temp)[temp[,1]==1] <- "TSLS"
