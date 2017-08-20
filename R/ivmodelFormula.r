@@ -61,7 +61,7 @@ ivmodelFormula <- function(formula,data,subset,
   	X = X[,!whichD,drop=FALSE]
   	whichZ = !(colnames(Z) %in% colnames(X))
     Z = Z[,whichZ,drop=FALSE]
-  	ivmodel(Y=Y,D=D,Z=Z,intercept=intercept,
+  	ivmodel(Y=Y,D=D,Z=Z,X=X,intercept=intercept,
   	                beta0=beta0,alpha=alpha,k=k,
   	                heteroSE=heteroSE,clusterID=clusterID,
   	                deltarange=deltarange, na.action=na.action)
