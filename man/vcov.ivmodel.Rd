@@ -3,11 +3,11 @@
 \title{Calculate Variance-Covariance Matrix (i.e. Standard Error) for k-Class Estimators in the \code{ivmodel} Object}
 \description{This \code{vcov} method returns the variance-covariance matrix, or equivalently the standard errors, for all specified k-Class estimation from an \code{ivmodel} object.}
 \usage{
-\method{coef}{ivmodel}(object,...)
+\method{vcov}{ivmodel}(object,...)
 }
 \arguments{
   \item{object}{\code{ivmodel} object.}
-  \item{\dots}{Additional arguments to \code{coef}.}
+  \item{\dots}{Additional arguments to \code{vcov}.}
 }
 \value{
 A matrix of standard error estimates for each k-Class estimator.
