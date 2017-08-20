@@ -6,9 +6,9 @@ Version: 1.8
 Date: 2017-08-20
 Author: Yang Jiang, Hyunseung Kang, Dylan Small, and Qingyuan Zhao
 Maintainer: Hyunseung Kang <hyunseung@stat.wisc.edu>
-Description: Contains functions for carrying out instrumental variable
+Description: Carries out instrumental variable
     estimation of causal effects, including power analysis, sensitivity analysis,
-    and diagnostics.
+    and diagnostics. See Kang, Jiang, and Small (2017) <url: http://pages.cs.wisc.edu/~hyunseung/ivmodel.pdf> for details.
 Imports: stats,Matrix,Formula,reshape2,ggplot2
 License: GPL-2
 LazyData: true
