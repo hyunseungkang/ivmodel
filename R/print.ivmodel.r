@@ -66,7 +66,7 @@ print.ivmodel <- function(x, ...){
 	    ivmodel$ARsens$ci.info)
   }
   if(!is.null(ivmodel$CLR)){
-    cat("\n\nConditional Likelihood Ratio test (under asymptotic Normal distribution):\n")
+    cat("\n\nConditional Likelihood Ratio test (under Normal approximation):\n")
 	cat("Test Stat=", ivmodel$CLR$test.stat, ", p-value=", format.pval(ivmodel$CLR$    p.value), "\n", sep="")
 	cat(round((1-ivmodel$alpha)*100, digits=1), "percent confidence interval:\n", 
 	    ivmodel$CLR$ci.info)
