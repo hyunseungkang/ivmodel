@@ -51,7 +51,7 @@ print.ivmodel <- function(x, ...){
   cat(rep("_", 30), "\n")
   cat("\nAlternative tests for the treatment effect under H_0: beta=", ivmodel$beta0, ".\n",sep = "")
   if(!is.null(ivmodel$AR)){
-    cat("\nAnderson-Rubin test:\n")
+    cat("\nAnderson-Rubin test (under F distribution):\n")
 	cat("F=", ivmodel$AR$Fstat, ", df1=", ivmodel$AR$df[1], ", df2=", 
 	    ivmodel$AR$df[2], ", p-value=", format.pval(ivmodel$AR$p.value), "\n", sep="")
 	cat(round((1-ivmodel$alpha)*100, digits=1), "percent confidence interval:\n", 
@@ -66,7 +66,7 @@ print.ivmodel <- function(x, ...){
 	    ivmodel$ARsens$ci.info)
   }
   if(!is.null(ivmodel$CLR)){
-    cat("\n\nConditional Likelihood Ratio test:\n")
+    cat("\n\nConditional Likelihood Ratio test (under asymptotic Normal distribution):\n")
 	cat("Test Stat=", ivmodel$CLR$test.stat, ", p-value=", format.pval(ivmodel$CLR$    p.value), "\n", sep="")
 	cat(round((1-ivmodel$alpha)*100, digits=1), "percent confidence interval:\n", 
 	    ivmodel$CLR$ci.info)
