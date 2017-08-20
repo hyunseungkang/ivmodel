@@ -65,7 +65,7 @@ Some procedures (e.g. conditional likelihood ratio test, sensitivity analysis wi
 \author{Yang Jiang, Hyunseung Kang, and Dylan Small}
 \seealso{
 See also \code{\link{KClass}}, \code{\link{LIML}}, \code{\link{Fuller}}, \code{\link{AR.test}}, and \code{\link{CLR}} for individual methods associated with \code{ivmodel}. For sensitivity analysis with the AR test, 
-see \code{\link{ARsens.test}}. \code{ivmodel} has \code{\link{summary.ivmodel}}, \code{\link{confint.ivmodel}}, \code{\link{fitted.ivmodel}}, 
+see \code{\link{ARsens.test}}. \code{ivmodel} has \code{\link{vcov.ivmodel}},\code{\link{model.matrix.ivmodel}},\code{\link{summary.ivmodel}}, \code{\link{confint.ivmodel}}, \code{\link{fitted.ivmodel}}, 
           \code{\link{residuals.ivmodel}} and \code{\link{coef.ivmodel}} methods associated with it.
 }
 \examples{
