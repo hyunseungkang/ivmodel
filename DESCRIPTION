@@ -2,8 +2,8 @@ Package: ivmodel
 Type: Package
 Title: Statistical Inference and Sensitivity Analysis for Instrumental
         Variables Model
-Version: 1.8
-Date: 2017-08-20
+Version: 1.8.1
+Date: 2018-07-21
 Author: Yang Jiang, Hyunseung Kang, Dylan Small, and Qingyuan Zhao
 Maintainer: Hyunseung Kang <hyunseung@stat.wisc.edu>
 Description: Carries out instrumental variable
@@ -12,6 +12,6 @@ Description: Carries out instrumental variable
 Imports: stats,Matrix,Formula,reshape2,ggplot2
 License: GPL-2
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
 Repository: CRAN
