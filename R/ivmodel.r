@@ -136,7 +136,7 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
 
   ivmodelObject$AR = AR.test(ivmodelObject,beta0=beta0,alpha=alpha)
   ivmodelObject$ARsens = ARsens.test(ivmodelObject,beta0=beta0,alpha=alpha,deltarange=deltarange)
-  ivmodelObject$kClass = KClass(ivmodelObject,beta0=beta0,alpha=alpha,k=k,clusterID=clusterID) ## Don't use many weak IV asymptotics for OLS and TSLS
+  ivmodelObject$kClass = KClass(ivmodelObject,beta0=beta0,alpha=alpha,k=k,heteroSE=heteroSE,clusterID=clusterID) ## Don't use many weak IV asymptotics for OLS and TSLS
   ivmodelObject$LIML = LIML(ivmodelObject,beta0=beta0,alpha=alpha,manyweakSE=manyweakSE,heteroSE=heteroSE,clusterID=clusterID)
   ivmodelObject$Fuller = Fuller(ivmodelObject,beta0=beta0,alpha=alpha,manyweakSE=manyweakSE,heteroSE=heteroSE,clusterID=clusterID)
   ivmodelObject$CLR = CLR(ivmodelObject,beta0=beta0,alpha=alpha)
