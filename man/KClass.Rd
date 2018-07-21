@@ -50,6 +50,37 @@ card.model2IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
 KClass(card.model2IV,
           k=c(0,1,length(Y)/(length(Y) - ncol(X) - ncol(Z) + 1)))
 
+\dontrun{
+## The following code tests the mank weak IV standard error for LIML and Fuller.
+example <- function(q = 10, rho1 = 0.5, n1 = 10000,
+sigma.uv = 0.5, beta = 1, gamma = rep(1/sqrt(q), q)) {
+
+    Sigma1 <- outer(1:q, 1:q, function(i, j) rho1^abs(i - j))
+
+    library(MASS)
+    Z1 <- mvrnorm(n1, rep(1, q), Sigma1)
+    Z1 <- matrix(2 * as.numeric(Z1 > 0) - 1, nrow = n1)
+    UV1 <- mvrnorm(n1, rep(0, 2), matrix(c(1, sigma.uv, sigma.uv, 1), 2))
+    X1 <- Z1 %*% gamma + runif(n1, 0.5, 2) * UV1[, 1] + runif(n1, 0.1, 0.5) * rexp(n1)
+    Y1 <- X1 %*% beta + runif(n1, 0.5, 2) * UV1[, 2] + runif(n1, 0.1, 0.5) * rexp(n1)
+
+    list(Z1 = Z1, X1 = X1, Y1 = Y1)
+
+}
+
+one.sim <- function(manyweakSE) {
+    data <- example(q = 100, n1 = 200)
+    fit <- ivmodel(data$Y1, data$X1, data$Z1, manyweakSE = manyweakSE)
+    1 > coef(fit)[, 2] - 1.96 * coef(fit)[, 3] & 1 < coef(fit)[, 2] + 1.96 * coef(fit)[, 3]
+}
+
+res <- replicate(200, one.sim(TRUE))
+apply(res, 1, mean)
+
+res <- replicate(200, one.sim(FALSE))
+apply(res, 1, mean)
+}
+
 }
 \keyword{k-Class estimator}
 \keyword{Instrumental variables}

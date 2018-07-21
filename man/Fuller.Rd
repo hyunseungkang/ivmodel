@@ -3,8 +3,8 @@
 \title{Fuller-k Estimator}
 \description{\code{Fuller} computes the Fuller-k (Fuller 1977) estimate for the \code{ivmodel} object.}
 \usage{Fuller(ivmodel,
-	          beta0 = 0, alpha = 0.05, b = 1,
-	          manyweakSE = FALSE,heteroSE = FALSE,clusterID=NULL)
+	      beta0 = 0, alpha = 0.05, b = 1,
+	      manyweakSE = FALSE,heteroSE = FALSE,clusterID=NULL)
 }
 \arguments{
   \item{ivmodel}{\code{ivmodel} object.}
