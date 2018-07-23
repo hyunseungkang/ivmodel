@@ -22,44 +22,44 @@
 ###        deltarange: for sensitivity analysis.
 ### OUTPUT: ivmodel object which contains a clean-up version of Y,D,Z,X (if available)
 ivmodel <- function(Y,D,Z,X,intercept=TRUE,
-                    beta0=0,alpha=0.05,k=c(0,1), 
-                    heteroSE = FALSE, clusterID = NULL, 
+                    beta0=0,alpha=0.05,k=c(0,1),
+                    manyweakSE = FALSE, heteroSE = FALSE, clusterID = NULL,
                     deltarange = NULL, na.action = na.omit) {
-    
+
   # Error checking: check to see if necessary inputs are there!
   if(missing(Y)) stop("Y is missing!")
   if(missing(D)) stop("D is missing!")
   if(missing(Z)) stop("Z is missing!")
-  
+
   # Error checking: check Y and D
   if( (!is.vector(Y) && !is.matrix(Y) && !is.data.frame(Y)) || (is.matrix(Y) && ncol(Y) != 1) || (is.data.frame(Y) && ncol(Y) != 1) || (!is.numeric(Y))) stop("Y is not a numeric vector.")
   if( (!is.vector(D) && !is.matrix(D) && !is.data.frame(Y)) || (is.matrix(D) && ncol(D) != 1) || (is.data.frame(D) && ncol(D) != 1) || (!is.numeric(D))) stop("D is not a numeric vector.")
   Y = as.numeric(Y); D = as.numeric(D)
   if(length(Y) != length(D)) stop("Dimension of Y and D are not the same!")
-  
+
   # Error checking: check Z and convert "strings" into factors
   Z = data.frame(Z); stringIndex = sapply(Z,is.character); Z[stringIndex] = lapply(Z[stringIndex],as.factor)
   if(nrow(Z) != length(Y)) stop("Row dimension of Z and Y are not equal!")
   colnames(Z) = paste("Z",colnames(Z),sep="")
-  
+
   # Add intercept as X
   if(intercept && !missing(X)) X = data.frame(X,1)
   if(intercept && missing(X)) X = data.frame(rep(1,length(Y)))
-  
+
   # Error checking: check X and convert "strings" into factors
   if(!missing(X)) {
     X = data.frame(X); stringIndex = sapply(X,is.character); X[stringIndex] = lapply(X[stringIndex],as.factor)
 	if(nrow(X) != length(Y)) stop("Row dimension of X and Y are not equal!")
-	colnames(X) = paste("X",colnames(X),sep="")	
+	colnames(X) = paste("X",colnames(X),sep="")
   }
-  
-  # Coalesce all data into one data.frame 
+
+  # Coalesce all data into one data.frame
   if(!missing(X)) {
     allDataOrig = cbind(Y,D,Z,X)
   } else {
     allDataOrig = cbind(Y,D,Z)
   }
-  
+
   # NA handling
   if(identical(na.action, na.fail) | identical(na.action, na.omit) | identical(na.action, na.pass)){
     allDataOrig = na.action(allDataOrig)
@@ -72,15 +72,15 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
   }else{
     stop("Wrong input of NA handling!")
   }
-  
+
   # Fit adjustment model
   ff = terms(Y ~ D + . -1,data=allDataOrig)
   mf = model.frame(ff,allDataOrig)
-  
+
   # Declare Y and D
   Y = as.matrix(mf$Y); colnames(Y) = "Y"
   D = as.matrix(mf$D); colnames(D) = "D"
- 
+
   # Extract Z and X
   allData = sparse.model.matrix(ff,allDataOrig); attr(allData,"assign") = NULL; attr(allData,"contrasts") = NULL
   Zindex = grep(paste("^",colnames(Z),sep="",collapse="|"),colnames(allData))
@@ -107,7 +107,7 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
     if(L==0)
       stop("No useful instrumental variables")
     if(L<ncol(Z)){
-      Zadj<-qr.Q(ZadjQR)[, 1:L]%*%qrRM(ZadjQR)[1:L, 1:L]  ### shall we update the Z by doing qr(X, Z)?   
+      Zadj<-qr.Q(ZadjQR)[, 1:L]%*%qrRM(ZadjQR)[1:L, 1:L]  ### shall we update the Z by doing qr(X, Z)?
       #qrXZ<-qr(cbind(X, Z))
       #Z<-(qr.Q(qrXZ)[, 1:(p+L)]%*%qrRM(qrXZ)[1:(p+L), 1:(p+L)])[,(p+1):(p+L)]
     }
@@ -123,7 +123,7 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
       stop("No useful instrumental variables")
     if(L<ncol(Z))
       Z<-Zadj<-qr.Q(ZadjQR)[, 1:L]%*%qrRM(ZadjQR)[1:L, 1:L]
-	
+
     ivmodelObject = list(call = match.call(),n=n,L=L,p=p,Y=Y,D=D,Z=Z,X=NA,Yadj=Yadj,Dadj=Dadj,Zadj=Zadj, ZadjQR = ZadjQR)
   }
 
@@ -133,12 +133,12 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
   ivmodelObject$alpha = alpha
   ivmodelObject$beta0 = beta0
   ivmodelObject$deltarange = deltarange
-  
+
   ivmodelObject$AR = AR.test(ivmodelObject,beta0=beta0,alpha=alpha)
   ivmodelObject$ARsens = ARsens.test(ivmodelObject,beta0=beta0,alpha=alpha,deltarange=deltarange)
-  ivmodelObject$kClass = KClass(ivmodelObject,beta0=beta0,alpha=alpha,k=k,heteroSE=heteroSE,clusterID=clusterID)
-  ivmodelObject$LIML = LIML(ivmodelObject,beta0=beta0,alpha=alpha,heteroSE=heteroSE,clusterID=clusterID)  
-  ivmodelObject$Fuller = Fuller(ivmodelObject,beta0=beta0,alpha=alpha,heteroSE=heteroSE,clusterID=clusterID)  
+  ivmodelObject$kClass = KClass(ivmodelObject,beta0=beta0,alpha=alpha,k=k,heteroSE=heteroSE,clusterID=clusterID) ## Don't use many weak IV asymptotics for OLS and TSLS
+  ivmodelObject$LIML = LIML(ivmodelObject,beta0=beta0,alpha=alpha,manyweakSE=manyweakSE,heteroSE=heteroSE,clusterID=clusterID)
+  ivmodelObject$Fuller = Fuller(ivmodelObject,beta0=beta0,alpha=alpha,manyweakSE=manyweakSE,heteroSE=heteroSE,clusterID=clusterID)
   ivmodelObject$CLR = CLR(ivmodelObject,beta0=beta0,alpha=alpha)
 
   return(ivmodelObject)
