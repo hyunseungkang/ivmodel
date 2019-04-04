@@ -48,9 +48,11 @@ iv.diagnosis <- function(Y, D, Z, X) {
         return(t(apply(X, 2, function(X) unlist(iv.diagnosis(Y, D, Z, X)))))
     }
 
+    flag <- FALSE
     if (length(unique(X)) == 2 & length(unique(Z)) == 2) {
         p.val <- fisher.test(X, Z)$p.value
-        stand.diff <- (mean(X[Z==1])-mean(X[Z==0]))/(sqrt((var(X[Z==1])+var(X[Z==0]))/2));
+        stand.diff <- (mean(X[Z==1])-mean(X[Z==0]))/(sqrt((var(X[Z==1])+var(X[Z==0]))/2))
+        flag <- TRUE
     } else if (length(unique(X)) == 2) {
         p.val <- summary(glm(X ~ Z, family = "binomial"))$coefficients[2, 4]
     } else {
@@ -70,7 +72,7 @@ iv.diagnosis <- function(Y, D, Z, X) {
         output <- list(x.mean1 = mean(X[Z == 1]),
                        x.mean0 = mean(X[Z == 0]),
                        p.val = p.val,
-                       stand.diff = stand.diff,
+                       stand.diff = ifelse(flag, stand.diff, NA),
                        bias.ratio = bias.ratio,
                        bias.amplify = bias.amplify,
                        bias.ols = bias.ols,
