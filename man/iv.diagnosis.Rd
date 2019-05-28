@@ -53,11 +53,16 @@ Diagnostics of instrumental variable analysis
 \examples{
 n <- 10000
 Z <- rbinom(n, 1, 0.5)
-X <- data.frame(matrix(rbinom(n * 5, 1, 0.5), n))
+X <- data.frame(matrix(c(rnorm(n), rbinom(n * 5, 1, 0.5)), n))
 D <- rbinom(n, 1, plogis(Z + X[, 1] + X[, 2] + X[, 3]))
 Y <- D + X[, 1] + X[, 2] + rnorm(n)
-output <- iv.diagnosis(Y, D, Z, X)
-print(output)
+print(output <- iv.diagnosis(Y, D, Z, X))
+iv.diagnosis.plot(output)
+
+Z <- rnorm(n)
+D <- rbinom(n, 1, plogis(Z + X[, 1] + X[, 2] + X[, 3]))
+Y <- D + X[, 1] + X[, 2] + rnorm(n)
+print(output <- iv.diagnosis(Y, D, Z, X)) ## stand.diff is not reported
 iv.diagnosis.plot(output)
 
 }

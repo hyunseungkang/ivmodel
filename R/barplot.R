@@ -35,11 +35,16 @@
 #' @examples
 #' n <- 10000
 #' Z <- rbinom(n, 1, 0.5)
-#' X <- data.frame(matrix(rbinom(n * 5, 1, 0.5), n))
+#' X <- data.frame(matrix(c(rnorm(n), rbinom(n * 5, 1, 0.5)), n))
 #' D <- rbinom(n, 1, plogis(Z + X[, 1] + X[, 2] + X[, 3]))
 #' Y <- D + X[, 1] + X[, 2] + rnorm(n)
-#' output <- iv.diagnosis(Y, D, Z, X)
-#' print(output)
+#' print(output <- iv.diagnosis(Y, D, Z, X))
+#' iv.diagnosis.plot(output)
+#'
+#' Z <- rnorm(n)
+#' D <- rbinom(n, 1, plogis(Z + X[, 1] + X[, 2] + X[, 3]))
+#' Y <- D + X[, 1] + X[, 2] + rnorm(n)
+#' print(output <- iv.diagnosis(Y, D, Z, X)) ## stand.diff is not reported
 #' iv.diagnosis.plot(output)
 #'
 iv.diagnosis <- function(Y, D, Z, X) {
@@ -56,6 +61,9 @@ iv.diagnosis <- function(Y, D, Z, X) {
         p.val <- summary(lm(X ~ Z))$coefficients[2, 4]
     }
     if (length(unique(Z)) == 2) {
+        if (!all.equal(sort(unique(Z)), c(0, 1))) {
+            stop("Please convert Z to {0, 1}.")
+        }
         stand.diff <- (mean(X[Z==1])-mean(X[Z==0]))/(sqrt((var(X[Z==1])+var(X[Z==0]))/2))
     }
     prev.diff.ratio <- (lm(X ~ Z)$coef[2])/(lm(X ~ D)$coef[2]);
@@ -111,7 +119,7 @@ iv.diagnosis.plot<- function(output, bias.ratio = TRUE, base_size = 15, text_siz
     levels(df$method) <- c("ols", "2sls")
     df$method <- factor(df$method, levels = c("2sls", "ols"))
 
-    p <- ggplot() + geom_bar(aes_string(x = "var", y = "bias", fill = "method", linetype = "method"), stat = "identity", color = "black", position=position_dodge(), data = df) + coord_flip() + theme_bw(base_size) + ylim(range(df$bias) * 1.2) + xlab("") + scale_fill_discrete(breaks = c("ols","2sls")) + scale_linetype_discrete(breaks = c("ols","2sls"))
+    p <- ggplot() + geom_bar(aes_string(x = "var", y = "bias", fill = "method", linetype = "method"), stat = "identity", color = "black", position=position_dodge(), data = df) + coord_flip() + theme_bw(base_size) + xlab("") + scale_fill_discrete(breaks = c("ols","2sls")) + scale_linetype_discrete(breaks = c("ols","2sls")) + expand_limits(y=c(0, range(df$bias) * 1.2))
     if (bias.ratio) {
         p <- p + geom_text(mapping = aes(y = max(df$bias) * 1.1, x = var, label = round(bias.ratio, 2)), data = data.frame(output), size = text_size)
     }
