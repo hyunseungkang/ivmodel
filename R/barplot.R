@@ -109,7 +109,7 @@ iv.diagnosis.plot<- function(output, bias.ratio = TRUE, base_size = 15, text_siz
     levels(df$method) <- c("ols", "2sls")
     df$method <- factor(df$method, levels = c("2sls", "ols"))
 
-    p <- ggplot() + geom_bar(aes_string(x = "var", y = "bias", fill = "method", linetype = "method"), stat = "identity", color = "black", position=position_dodge(), data = df) + coord_flip() + theme_bw(base_size) + ylim(range(df$bias) * 1.2) + xlab("") + scale_fill_discrete(breaks = c("ols","2sls")) + scale_linetype_discrete(breaks = c("ols","2sls"))
+    p <- ggplot() + geom_bar(aes_string(x = "var", y = "bias", fill = "method", linetype = "method"), stat = "identity", color = "black", position=position_dodge(), data = df) + coord_flip() + theme_bw(base_size) + xlab("") + scale_fill_discrete(breaks = c("ols","2sls")) + scale_linetype_discrete(breaks = c("ols","2sls"))
     if (bias.ratio) {
         p <- p + geom_text(mapping = aes(y = max(df$bias) * 1.1, x = var, label = round(bias.ratio, 2)), data = data.frame(output), size = text_size)
     }
