@@ -66,7 +66,7 @@ iv.diagnosis <- function(Y, D, Z, X) {
     names(bias.ols) <- NULL
     names(bias.2sls) <- NULL
     ## stand.diff.high.treatment <- (mean(x[d==1])-mean(x[d==0]))/sqrt((var(x[d==1])+var(x[d==0]))/2);
-    if (length(unique(Z)) == 2) {
+    if (length(unique(X)) == 2 & length(unique(Z)) == 2) {
         output <- list(x.mean1 = mean(X[Z == 1]),
                        x.mean0 = mean(X[Z == 0]),
                        p.val = p.val,
