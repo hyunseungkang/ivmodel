@@ -106,7 +106,10 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
     L = qrrank(ZadjQR)
     if(L==0)
       stop("No useful instrumental variables")
-    if(L<ncol(Z)){
+    if(L==1) {
+      Zadj = qr.Q(ZadjQR)[, 1:L] * as.numeric(qrRM(ZadjQR)[1:L,1:L])
+    }
+    if(L<ncol(Z) && L> 1){
       Zadj<-qr.Q(ZadjQR)[, 1:L]%*%qrRM(ZadjQR)[1:L, 1:L]  ### shall we update the Z by doing qr(X, Z)?
       #qrXZ<-qr(cbind(X, Z))
       #Z<-(qr.Q(qrXZ)[, 1:(p+L)]%*%qrRM(qrXZ)[1:(p+L), 1:(p+L)])[,(p+1):(p+L)]
@@ -121,7 +124,10 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
     L = qrrank(ZadjQR)
     if(L==0)
       stop("No useful instrumental variables")
-    if(L<ncol(Z))
+    if(L == 1) {
+      Z <- Zadj <-qr.Q(ZadjQR)[, 1:L] * as.numeric(qrRM(ZadjQR)[1:L, 1:L])
+    }
+    if(L<ncol(Z) && L > 1)
       Z<-Zadj<-qr.Q(ZadjQR)[, 1:L]%*%qrRM(ZadjQR)[1:L, 1:L]
 
     ivmodelObject = list(call = match.call(),n=n,L=L,p=p,Y=Y,D=D,Z=Z,X=NA,Yadj=Yadj,Dadj=Dadj,Zadj=Zadj, ZadjQR = ZadjQR)
