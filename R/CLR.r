@@ -58,6 +58,7 @@ CLR = function(ivmodel,beta0=0,alpha=0.05) {
   LRtest = 1/2 * (QS - QT + sqrt((QS + QT)^2 - 4*(QS *QT - QTS^2)))
   
   test.stat = matrix(LRtest,1,1)
+  QT = as.numeric(QT); LRtest = as.numeric(LRtest)
   p.value = tryCatch({condPvalue(LRtest,QT,ivmodel$L,ivmodel$n - ivmodel$p- ivmodel$L)},error=function(e){0})
   p.value = matrix(p.value,1,1) 
   maxEigen = max(quadSolver(a=1,b=-1*(QS + QT),c=QS *QT - QTS^2)) #of Q matrix

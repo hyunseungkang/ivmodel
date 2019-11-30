@@ -76,7 +76,7 @@ iv.diagnosis <- function(Y, D, Z, X) {
     names(bias.ols) <- NULL
     names(bias.2sls) <- NULL
     ## stand.diff.high.treatment <- (mean(x[d==1])-mean(x[d==0]))/sqrt((var(x[d==1])+var(x[d==0]))/2);
-    if (length(unique(Z)) == 2) {
+    if (length(unique(X)) == 2 & length(unique(Z)) == 2) {
         output <- list(x.mean1 = mean(X[Z == 1]),
                        x.mean0 = mean(X[Z == 0]),
                        p.val = p.val,
@@ -120,6 +120,7 @@ iv.diagnosis.plot<- function(output, bias.ratio = TRUE, base_size = 15, text_siz
     df$method <- factor(df$method, levels = c("2sls", "ols"))
 
     p <- ggplot() + geom_bar(aes_string(x = "var", y = "bias", fill = "method", linetype = "method"), stat = "identity", color = "black", position=position_dodge(), data = df) + coord_flip() + theme_bw(base_size) + xlab("") + scale_fill_discrete(breaks = c("ols","2sls")) + scale_linetype_discrete(breaks = c("ols","2sls")) + expand_limits(y=c(0, range(df$bias) * 1.2))
+
     if (bias.ratio) {
         p <- p + geom_text(mapping = aes(y = max(df$bias) * 1.1, x = var, label = round(bias.ratio, 2)), data = data.frame(output), size = text_size)
     }
