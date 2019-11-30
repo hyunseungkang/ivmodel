@@ -53,7 +53,7 @@ print.ivmodel <- function(x, ...){
   if(!is.null(ivmodel$AR)){
     cat("\nAnderson-Rubin test (under F distribution):\n")
 	cat("F=", ivmodel$AR$Fstat, ", df1=", ivmodel$AR$df[1], ", df2=", 
-	    ivmodel$AR$df[2], ", p-value=", format.pval(ivmodel$AR$p.value), "\n", sep="")
+	    ivmodel$AR$df[2], ", p-value is ", format.pval(ivmodel$AR$p.value), "\n", sep="")
 	cat(round((1-ivmodel$alpha)*100, digits=1), "percent confidence interval:\n", 
 	    ivmodel$AR$ci.info)
   }
@@ -61,13 +61,13 @@ print.ivmodel <- function(x, ...){
     cat("\n\nSensitivity analysis with deltarange [", ivmodel$ARsens$deltarange[1], 
 	    ", ", ivmodel$ARsens$deltarange[2], "]:\n")
 	cat("non-central F=", ivmodel$ARsens$ncFstat, ", df1=", ivmodel$ARsens$df[1], 
-	    ", df2=", ivmodel$ARsens$df[2], ", ncp=", ivmodel$ARsens$ncp, ", p-value=", format.pval(ivmodel$ARsens$p.value), "\n", sep="")
+	    ", df2=", ivmodel$ARsens$df[2], ", ncp=", ivmodel$ARsens$ncp, ", p-value is ", format.pval(ivmodel$ARsens$p.value), "\n", sep="")
 	cat(round((1-ivmodel$alpha)*100, digits=1), "percent confidence interval:\n", 
 	    ivmodel$ARsens$ci.info)
   }
   if(!is.null(ivmodel$CLR)){
     cat("\n\nConditional Likelihood Ratio test (under Normal approximation):\n")
-	cat("Test Stat=", ivmodel$CLR$test.stat, ", p-value=", format.pval(ivmodel$CLR$    p.value), "\n", sep="")
+	cat("Test Stat=", ivmodel$CLR$test.stat, ", p-value is ", format.pval(ivmodel$CLR$    p.value), "\n", sep="")
 	cat(round((1-ivmodel$alpha)*100, digits=1), "percent confidence interval:\n", 
 	    ivmodel$CLR$ci.info)
   }

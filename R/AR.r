@@ -69,7 +69,7 @@ AR.test=function(ivmodel, beta0=0, alpha=0.05){
       upper.root=max(root1,root2)
       lower.root=min(root1,root2)
       if(coef.beta0sq<0){
-        info=paste("[",lower.root,",",upper.root,"]")
+        info=paste("[",lower.root,", ",upper.root,"]",sep="")
         ci[1, ]=c(lower.root, upper.root)
       }
       if(coef.beta0sq>0){
