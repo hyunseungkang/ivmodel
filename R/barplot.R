@@ -50,7 +50,9 @@
 iv.diagnosis <- function(Y, D, Z, X) {
 
     if (length(dim(X)) == 2) { ## if x is a matrix/data.frame
-        return(t(apply(X, 2, function(X) unlist(iv.diagnosis(Y, D, Z, X)))))
+        output <- data.frame(t(sapply(1:ncol(X), function(j) unlist(iv.diagnosis(Y, D, Z, X[, j])))))
+        rownames(output) <- colnames(X)
+        return(output)
     }
 
     if (length(unique(X)) == 2 & length(unique(Z)) == 2) {
@@ -79,6 +81,8 @@ iv.diagnosis <- function(Y, D, Z, X) {
     if (length(unique(X)) == 2 & length(unique(Z)) == 2) {
         output <- list(x.mean1 = mean(X[Z == 1]),
                        x.mean0 = mean(X[Z == 0]),
+                       coef = NA,
+                       se = NA,
                        p.val = p.val,
                        stand.diff = stand.diff,
                        bias.ratio = bias.ratio,
@@ -86,9 +90,12 @@ iv.diagnosis <- function(Y, D, Z, X) {
                        bias.ols = bias.ols,
                        bias.2sls = bias.2sls)
     } else {
-        output <- list(coef = lm(X ~ Z)$coef[2],
+        output <- list(x.mean1 = NA,
+                       x.mean0 = NA,
+                       coef = unname(lm(X ~ Z)$coef[2]),
                        se = summary(lm(X ~ Z))$coefficients[2, 2],
                        p.val = p.val,
+                       stand.diff = NA,
                        bias.ratio = bias.ratio,
                        bias.amplify = bias.amplify,
                        bias.ols = bias.ols,
