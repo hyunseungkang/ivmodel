@@ -134,7 +134,7 @@ ARsens.size=function(power, k, beta, gamma, Zadj_sq, sigmau, sigmav,
   }
 
   if(ncp1<=ncp2){
-    print("Sensitivity range too large and the power is always going to be less than the significance level; see Wang, Jiang, Small, and Zhang (2017) `Sensitivity analysis...', Proposition 1.")
+    print("Sensitivity range too large and the power is always going to be less than the significance level; see Wang, Jiang, Small, and Zhang (2018) `Sensitivity analysis...', Proposition 1.")
 	stop()
   }else{
     oldn<-k+2
