@@ -11,7 +11,7 @@ IVpower=function(ivmodel, n=NULL, alpha=0.05, beta=NULL, type="TSLS", deltarange
     deltarange = ivmodel$deltarange
 
   if(type=="TSLS"){
-     return(TSLS.power(n, beta, cor(ivmodel$Zadj, ivmodel$Dadj), esti$sigmau, var(ivmodel$Dadj), alpha))
+     return(TSLS.power(n, beta, as.numeric(cor(ivmodel$Zadj, ivmodel$Dadj)), esti$sigmau, as.numeric(var(ivmodel$Dadj)), alpha))
   }
   if(type=="AR"){
     return(AR.power(n, ivmodel$p, ivmodel$L, beta, esti$gamma, var(ivmodel$Zadj), esti$sigmau, esti$sigmav, esti$rho, alpha))  
