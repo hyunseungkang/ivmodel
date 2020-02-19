@@ -3,14 +3,14 @@ Type: Package
 Title: Statistical Inference and Sensitivity Analysis for Instrumental
         Variables Model
 Version: 1.8.1
-Date: 2018-07-21
-Author: Yang Jiang, Hyunseung Kang, Dylan Small, and Qingyuan Zhao
+Date: 2020-02-19
+Author: Hyunseung Kang, Yang Jiang, Qingyuan Zhao, and Dylan Small
 Maintainer: Hyunseung Kang <hyunseung@stat.wisc.edu>
 Description: Carries out instrumental variable
     estimation of causal effects, including power analysis, sensitivity analysis,
-    and diagnostics. See Kang, Jiang, and Small (2017) <url: http://pages.cs.wisc.edu/~hyunseung/ivmodel.pdf> for details.
+    and diagnostics. See Kang, Jiang, Zhao, and Small (2020) <http://pages.cs.wisc.edu/~hyunseung/ivmodel.pdf> for details.
 Imports: stats,Matrix,Formula,reshape2,ggplot2
-License: GPL-2
+License: GPL-2 | file LICENSE
 LazyData: true
 RoxygenNote: 6.0.1
 NeedsCompilation: no
