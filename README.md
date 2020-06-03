@@ -1,6 +1,7 @@
 # ivmodel
 
-ivmodel is a comprehensive R package for linear instrumental variables analysis with one endogenous variable (e.g. confounded treatment/policy/intervention). The package can handle large data, data from matched sets, and is designed to be robust to many data types (or mixtures of data types). The package contains the usual instrumental variables methods, methods for weak instruments, sensitivity analysis, and power calculations. Please see our paper Kang, Jiang, Zhao, and Small (2020) for details. 
+ivmodel is a comprehensive R package for linear instrumental variables analysis with one endogenous variable (e.g. confounded treatment/policy/intervention). The package can handle large data, data from matched sets, and is designed to be robust to many data types (or mixtures of data types). The package contains the usual instrumental variables methods, methods for weak instruments, sensitivity analysis, and power calculations. The package also contains diagnostic tools to assess assumptions underlying IV analyses. All the methods in the software are outlined in Kang, Jiang, Zhao, and Small (2020) and Branson and Keele (2020).
+
 
 To install this package in R from GitHub, run the following commands:
 
@@ -55,3 +56,4 @@ Behaviour: Essays in Honour of John Vanderkamp. University of Toronto Press.
 
 Kang, H., Jiang, Y., Zhao, Q., and Small, D. S. (2020). <a href="https://arxiv.org/abs/2002.08457">ivmodel: An R Package for Inference and Sensitivity Analysis of Instrumental Variables Models with One Endogenous Variable.</a> Technical Report.
 
+Branson, Z., Keele, J. (2020). <a href="https://academic.oup.com/aje/advance-article-abstract/doi/10.1093/aje/kwaa089/5840886"> Evaluating A Key Instrumental Variable Assumption Using Randomization Tests.</a> American Journal of Epidemiology.
