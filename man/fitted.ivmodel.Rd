@@ -10,7 +10,7 @@
   \item{\dots}{Additional arguments to \code{fitted}.}
 }
 \value{
-A matrix of fitted values from the k-Class estimations.
+A matrix of fitted values from the k-Class estimations. Specifically, each column of the matrix represents predicted values of the outcome for each individual based on different estimates of the treatment effect from k-Class estimators. By default, one of the columns of the matrix is the predicted outcome when the treatment effect is estimated by ordinarly least squares (OLS). Because OLS is generally biased in instrumental variables settings, the predictions will likely be biased. However, comparing the predictions from OLS to those from two-stage least squares or other k-Class estimators may shed some light about the nature of the treatment effect or the underlying estimators.
 }
 \author{Yang Jiang, Hyunseung Kang, and Dylan Small}
 \seealso{See also \code{\link{ivmodel}} for details on the instrumental variables model.}
