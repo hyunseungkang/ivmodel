@@ -1,4 +1,4 @@
-##### calculate the TSLS esitmators and covariance matrix estimator
+##### calculate the TSLS estimators and covariance matrix estimator
 
 para=function(ivmodel){
   output=list()
