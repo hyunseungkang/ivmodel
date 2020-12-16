@@ -43,8 +43,8 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
   colnames(Z) = paste("Z",colnames(Z),sep="")
 
   # Add intercept as X
-  if(intercept && !missing(X)) X = data.frame(X,1)
-  if(intercept && missing(X)) X = data.frame(rep(1,length(Y)))
+  if(intercept && !missing(X)) X = data.frame(X,intercept=rep(1,nrow(X)))
+  if(intercept && missing(X)) X = data.frame(intercept=rep(1,length(Y)))
 
   # Error checking: check X and convert "strings" into factors
   if(!missing(X)) {
