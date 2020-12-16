@@ -2,7 +2,7 @@
 ###         Must run ivmodel before you run this code
 ### INPUT: ivmodel, an object from ivmodel() function
 ###        k, a vector (or scalar) of k values for estimation
-###        beta0, a vector (or scalar) of null values for testing and p-values
+###        beta0, a scalar null value for testing and p-values
 ###        alpha, significance level for confidence intervals
 ###        heteroSE, use heteroscedastic robust standard errors?
 ###        clusterID, if cluster-robust standard errors are desired, please provide a vector of
@@ -27,19 +27,31 @@ KClass = function(ivmodel,
   }
 
   # Extract objects from ivmodel
-  Yadj = ivmodel$Yadj; Dadj =ivmodel$Dadj; Zadj = ivmodel$Zadj; ZadjQR = ivmodel$ZadjQR
+  Y= ivmodel$Y; D = ivmodel$D; Z = ivmodel$Z; ZXQR = ivmodel$ZXQR; p = ivmodel$p
+  if(p == 0) W = D
+  if(p > 0) W = cbind(D,ivmodel$X)
+  
+  #Yadj = ivmodel$Yadj; Dadj =ivmodel$Dadj; Zadj = ivmodel$Zadj; ZadjQR = ivmodel$ZadjQR
   degF = ivmodel$n - ivmodel$p - 1 # this looks strange, but it's from Wooldridge and Stock (2002)
 
   # Compute k-class estimator
-  denom = (sum(Dadj^2) - k * sum(qr.resid(ZadjQR,Dadj)^2))
-  kPointEst = (sum(Yadj * Dadj) - k * sum(Yadj * qr.resid(ZadjQR,Dadj))) / denom
+  #denom = (sum(Dadj^2) - k * sum(qr.resid(ZadjQR,Dadj)^2))
+  #kPointEst = (sum(Yadj * Dadj) - k * sum(Yadj * qr.resid(ZadjQR,Dadj))) / denom
 
   # Compute std error, testStat, and confidence intervals
-  kVarPointEst = rep(0,length(k))
-  kCI = matrix(0,length(k),2)
+  kPointEst = matrix(0,length(k),1+p) # First column is treatment effect, rest are exogeneous covariates estimates.
+  kVarPointEst = matrix(0,length(k),1+p)
+  kCILower = matrix(0,length(k),1+p)
+  kCIUpper = matrix(0,length(k),1+p)
+  
   for(i in 1:length(k)) {
-    if(denom[i] <= 0) { #k exceeds the maximum possible value
-	  kVarPointEst[i] = NA; kCI[i,] = c(NA,NA)
+    rankInverse = qrrank(qr(t(W) %*% W - k[i] * t(W) %*% qr.resid(ZXQR,W)))
+    if(rankInverse < ncol(W)) stop("k is out-of-range; the matrix inversion in the k-class estimator will fail.")
+    inverseMat = solve(t(W) %*% W - k[i] * t(W) %*% qr.resid(ZXQR,W))
+    kPointEst[i,] = as.numeric(inverseMat %*% ( t(W) %*% Y - k[i] *t(W) %*% qr.resid(ZXQR,Y)))
+    if(1 <= 0) { #k exceeds the maximum possible value
+	    kVarPointEst[i,] = NA; 
+	    kCILower[i,] = c(NA,NA); kCIUpper[i,] = c(NA,NA);
     } else {
         if (manyweakSE && k[i] != 0) { ## From Hansen et al. (2008)
             alpha <- - (1 - k[i])/k[i]
@@ -76,11 +88,15 @@ KClass = function(ivmodel,
         kVarPointEst[i] = dfc * t(umat) %*% umat / denom[i]^2
 	  }
 	  else {
-        kVarPointEst[i] = 1/(degF) *sum((Yadj - Dadj * kPointEst[i])^2) / denom[i]
+        #kVarPointEst[i] = 1/(degF) *sum((Yadj - Dadj * kPointEst[i])^2) / denom[i]
+	   kVarPointEst[i,] = 1/degF * sum( (Y - W %*% kPointEst[i,])^2) * diag(inverseMat)
 	  }
 	  # Note that R's AER package uses the z-scores instead of the t distribution. They are basically the same as n gets large.
-	  kCI[i,] =  c(kPointEst[i] - qt(1-alpha/2,degF) * sqrt(kVarPointEst[i]),
-	               kPointEst[i] + qt(1-alpha/2,degF) * sqrt(kVarPointEst[i]))
+	    kCILower[i,] = kPointEst[i,] - qt(1-alpha/2,degF) * sqrt(kVarPointEst[i,])
+	    kCIUpper[i,] = kPointEst[i,] + qt(1-alpha/2,degF) * sqrt(kVarPointEst[i,])
+	    
+      #kCI[i,] =  c(kPointEst[i] - qt(1-alpha/2,degF) * sqrt(kVarPointEst[i]),
+	    #            kPointEst[i] + qt(1-alpha/2,degF) * sqrt(kVarPointEst[i]))
     }
   }
 
@@ -90,19 +106,25 @@ KClass = function(ivmodel,
   # and subtracts pointEst from a vector of null values.
   # The last operation of dividing by sqrt() is done column-wise
   # E.g. [1,2,3 ; 2,3,4] / (2,3,4) --> [0.5,2/3,0.75;1,1,1]
-  kTestStat = outer(kPointEst,beta0,FUN="-") / sqrt(kVarPointEst)
+  kTestStat = (kPointEst - beta0)/sqrt(kVarPointEst) #= outer(kPointEst,beta0,FUN="-") / sqrt(kVarPointEst)
 
   # Compute p-value
   kPValue = 2*(1 - pt(abs(kTestStat),degF))
 
   # Package output
-  kPointEst = matrix(kPointEst,length(k),1)
-  kVarPointEst = matrix(sqrt(kVarPointEst),length(k),1)
-  rownames(kPointEst) = rownames(kVarPointEst) = rownames(kCI) = rownames(kPValue) = rownames(kTestStat) = k
-  colnames(kPValue) = colnames(kTestStat) = beta0
-  colnames(kPointEst) = "Estimate"
-  colnames(kVarPointEst) = "Std. Error"
-  colnames(kCI) = c(paste(as.character(round(alpha/2 * 100,1)),"%"),paste(as.character( round((1-alpha/2) * 100,1)),"%"))
-
-  return(list(point.est = kPointEst,std.err = kVarPointEst,test.stat = kTestStat,p.value = kPValue,ci = kCI))
+  kPointEst_trt = matrix(kPointEst[,1],length(k),1)
+  kVarPointEst_trt = matrix(sqrt(kVarPointEst)[,1],length(k),1)
+  kCI_trt = matrix(NA,length(k),2)
+  kCI_trt[,1] = kPointEst[,1] - qt(1-alpha/2,degF) * sqrt(kVarPointEst[,1])
+  kCI_trt[,2] = kPointEst[,1] + qt(1-alpha/2,degF) * sqrt(kVarPointEst[,1])
+  kPValue_trt = kPValue[,1,drop=FALSE]
+  kTestStat_trt = kTestStat[,1,drop=FALSE]
+  
+  rownames(kPointEst_trt) = rownames(kVarPointEst_trt) = rownames(kCI_trt) = rownames(kPValue_trt) = rownames(kTestStat_trt) = k
+  colnames(kPValue_trt) = colnames(kTestStat_trt) = beta0
+  colnames(kPointEst_trt) = "Estimate"
+  colnames(kVarPointEst_trt) = "Std. Error"
+  colnames(kCI_trt) = c(paste(as.character(round(alpha/2 * 100,1)),"%"),paste(as.character( round((1-alpha/2) * 100,1)),"%"))
+  
+  return(list(point.est = kPointEst_trt,std.err = kVarPointEst_trt,test.stat = kTestStat_trt,p.value = kPValue_trt,ci = kCI_trt))
 }
