@@ -114,8 +114,8 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
       #qrXZ<-qr(cbind(X, Z))
       #Z<-(qr.Q(qrXZ)[, 1:(p+L)]%*%qrRM(qrXZ)[1:(p+L), 1:(p+L)])[,(p+1):(p+L)]
     }
-    ZQR = qr(Z)
-    ivmodelObject = list(call = match.call(),n=n,L=L,p=p,Y=Y,D=D,Z=Z,X=X,ZQR=ZQR,Yadj=Yadj,Dadj=Dadj,Zadj=Zadj, ZadjQR = ZadjQR)
+    ZXQR = qr(cbind(Z,X))
+    ivmodelObject = list(call = match.call(),n=n,L=L,p=p,Y=Y,D=D,Z=Z,X=X,ZXQR=ZXQR,Yadj=Yadj,Dadj=Dadj,Zadj=Zadj, ZadjQR = ZadjQR)
 
   }else{
     p = 0
@@ -131,8 +131,8 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
     if(L<ncol(Z) && L > 1)
       Z<-Zadj<-qr.Q(ZadjQR)[, 1:L]%*%qrRM(ZadjQR)[1:L, 1:L]
 
-    ZQR = qr(Z)
-    ivmodelObject = list(call = match.call(),n=n,L=L,p=p,Y=Y,D=D,Z=Z,X=NA,ZQR=ZQR,Yadj=Yadj,Dadj=Dadj,Zadj=Zadj, ZadjQR = ZadjQR)
+    ZXQR = qr(Z)
+    ivmodelObject = list(call = match.call(),n=n,L=L,p=p,Y=Y,D=D,Z=Z,X=NA,ZXQR=ZXQR,Yadj=Yadj,Dadj=Dadj,Zadj=Zadj, ZadjQR = ZadjQR)
   }
 
   class(ivmodelObject) = "ivmodel"
