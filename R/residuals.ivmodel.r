@@ -19,7 +19,7 @@ residuals.ivmodel <- function(object, ...){
   result <- matrix(NA, ncol=ncol(temp), nrow=ivmodel$n)
   colnames(result) <- colnames(temp)
   for(i in 1:ncol(temp)){
-    result[, i] <- ivmodel$Y - ivmodel$Yadj - temp[2, i]*(ivmodel$D-ivmodel$Dadj)
+    result[, i] <- ivmodel$Yadj - temp[2, i]*ivmodel$Dadj
   }
 
   # NA handling
