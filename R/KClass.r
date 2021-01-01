@@ -48,19 +48,35 @@ KClass = function(ivmodel,
 	    kCILower[i,] = c(NA,NA); kCIUpper[i,] = c(NA,NA);
     } else {
         if (manyweakSE && k[i] != 0) { ## From Hansen et al. (2008)
-            alpha <- - (1 - k[i])/k[i]
-            H <- sum((Dadj - qr.resid(ZadjQR,Dadj))^2) - alpha * sum(Dadj^2)
-            u <- Yadj - Dadj * kPointEst[i]
-            D.tilde <- Dadj - u * sum(u  * Dadj) / sum(u^2)
-            sigmaB <- sum(u^2) / degF * ( (1 - alpha)^2 * (sum(D.tilde^2) - sum(qr.resid(ZadjQR, D.tilde)^2)) + alpha^2 * sum(qr.resid(ZadjQR, D.tilde)^2) )
-            Q <- qr.Q(ZadjQR)[, 1:ivmodel$L]
-            P.diag <- apply(Q * Q, 1, sum)
-            Dfitted <- Dadj - qr.resid(ZadjQR, Dadj)
-            kappa <- sum(P.diag^2)/ivmodel$L
-            tau <- ivmodel$L/ivmodel$n
-            A <- sum((P.diag - tau) * Dfitted) * mean(u^2 * qr.resid(ZadjQR, D.tilde))
-            B <- ivmodel$L * (kappa - tau) * sum((u^2 - sum(u^2) / degF) * qr.resid(ZadjQR, D.tilde)^2) / (ivmodel$n * (1 - 2 * tau + kappa * tau))
-            kVarPointEst[i] = (sigmaB + 2 * A + B) / H^2
+            udelta = Y - W %*% kPointEst[i,,drop=FALSE]
+            sigmahat.sq = sum(udelta^2)/(ivmodel$n-ncol(W))
+            alphatilde = sum( qr.fitted(ZXQR,udelta)^2)/sum(udelta^2)
+            iotahat = qr.fitted(ZXQR,W)
+            Xtilde = W - udelta %*% (udelta %*% W) / sum(udelta^2)
+            Vhat = qr.resid(ZXQR,Xtilde)
+            Ptt = diag(W %*% solve(t(W) %*% W) %*% t(W))
+            kappa = sum(Ptt^2)/ivmodel$L 
+            tauT = ivmodel$L / ivmodel$n
+            
+            H = t(W) %*% qr.fitted(ZXQR,W) - alphatilde * t(W) %*% W
+            sigmaB = sigmahat.sq * ( (1-alphatilde)^2 * t(Xtilde) %*% qr.fitted(ZXQR,Xtilde) + alphatilde^2 *  t(Xtilde) %*% qr.resid(ZXQR,Xtilde))
+            A_other = matrix(0,1,ncol(sigmaB))
+            for(j in 1:ivmodel$n) {
+              A_other = A_other + udelta[j]^2 * Vhat[j,,drop=FALSE] / ivmodel$n
+            }
+            A = matrix(0,nrow(sigmaB),ncol(sigmaB))
+            B = matrix(0,nrow(sigmaB),ncol(sigmaB))
+            for(j in 1:ivmodel$n) {
+              A = A + (Ptt[t] - tauT) * (t(iotahat[t,,drop=FALSE]) %*% A_other)
+              B = B + (udelta[t]^2 - sigmahat.sq) * (t(Vhat[j,,drop=FALSE]) %*% Vhat[j,,drop=FALSE])
+            }
+            B = ivmodel$L * (kappa - tauT) * B / (ivmodel$n*(1-2*tauT + kappa * tauT))
+            Sigmahat = sigmaB + A + t(A) + B
+            
+            Hinv = solve(H)
+            Lambdahat = Hinv  %*% Sigmahat %*% Hinv 
+            kVarPointEst[i,] = diag(Lambdahat)
+        
         } else if (heteroSE || (manyweakSE &&k[i] == 0)) {
           inner = matrix(0,ncol(W),ncol(W))
           for(j in 1:length(Y)) {
