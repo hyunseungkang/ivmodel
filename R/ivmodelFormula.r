@@ -6,7 +6,7 @@ ivmodelFormula <- function(formula,data,subset,
   if(!inherits(formula,"formula")) {
   	stop("method is only for formula objects!")
   }
-  # code gratefully stolen from ivreg() (package AER).
+  # code gratefully lifted from ivreg() (package AER).
   if (missing(data)) 
     data <- environment(formula)
   mf = match.call()
@@ -55,6 +55,7 @@ ivmodelFormula <- function(formula,data,subset,
   if(sum(!whichD) == 0) {
   	ivmodel(Y=Y,D=D,Z=Z,intercept=intercept,
   	                beta0=beta0,alpha=alpha,k=k,
+  	                manyweakSE = manyweakSE,
   	                heteroSE=heteroSE,clusterID=clusterID,
   	                deltarange=deltarange, na.action=na.action)
   } else {
@@ -64,6 +65,7 @@ ivmodelFormula <- function(formula,data,subset,
     Z = Z[,whichZ,drop=FALSE]
   	ivmodel(Y=Y,D=D,Z=Z,X=X,intercept=intercept,
   	                beta0=beta0,alpha=alpha,k=k,
+  	                manyweakSE = manyweakSE,
   	                heteroSE=heteroSE,clusterID=clusterID,
   	                deltarange=deltarange, na.action=na.action)
  }           	
