@@ -141,8 +141,9 @@ KClass = function(ivmodel,
   colnames(kVarPointEst_trt) = "Std. Error"
   colnames(kCI_trt) = c(paste(as.character(round(alpha/2 * 100,1)),"%"),paste(as.character( round((1-alpha/2) * 100,1)),"%"))
   
-  return(list(point.est = kPointEst_trt,std.err = kVarPointEst_trt,test.stat = kTestStat_trt,p.value = kPValue_trt,ci = kCI_trt,
-              point.est.other = kPointEst[,-1,drop=FALSE],std.err.other = kVarPointEst[,-1,drop=FALSE],
-              test.stat.other = kPointEst[,-1,drop=FALSE],p.value.other = kPValue[,-1,drop=FALSE],
+  return(list(k = k,
+              point.est = kPointEst_trt,std.err = kVarPointEst_trt,test.stat = kTestStat_trt,p.value = kPValue_trt,ci = kCI_trt,
+              point.est.other = kPointEst[,-1,drop=FALSE],std.err.other = sqrt(kVarPointEst[,-1,drop=FALSE]),
+              test.stat.other = kTestStat[,-1,drop=FALSE],p.value.other = kPValue[,-1,drop=FALSE],
               ci.other.lower = kCILower[,-1,drop=FALSE],ci.other.upper=kCIUpper[,-1,drop=FALSE]))
 }
