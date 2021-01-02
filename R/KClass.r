@@ -84,8 +84,6 @@ KClass = function(ivmodel,
             adjustVec = as.numeric(W[j,]) - as.numeric(k[i]*qr.resid(ZXQR,W)[j,])
             inner = inner + (Y[j] - sum(W[j,] * kPointEst[i,]))^2 * (t(t(adjustVec)) %*% t(adjustVec) )
           }
-          print(str(adjustVec))
-          print(str(inner))
           kVarPointEst[i,] = diag(inverseMat %*% inner %*% inverseMat)
 	      } else if(!is.null(clusterID)){
 	  	    if(length(clusterID) != ivmodel$n) {
