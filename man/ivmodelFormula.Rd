@@ -24,6 +24,9 @@ ivmodelFormula(formula, data, subset,
   \item{beta0}{Null value \eqn{\beta_0} for testing null hypothesis \eqn{H_0: \beta = \beta_0} in \code{ivmodel}. Default is $0$.}
   \item{alpha}{The significance level for hypothesis testing. Default is 0.05.}
   \item{k}{A numeric vector of k values for k-class estimation. Default is 0 (OLS) and 1 (TSLS).}
+  \item{manyweakSE}{Should many weak instrument (and
+    heteroscedastic-robust) asymptotics in Hansen, Hausman and Newey
+    (2008) be used to compute standard errors? (Not supported for k ==0)}
   \item{heteroSE}{Should heteroscedastic-robust standard errors be used? Default is FALSE.}
   \item{clusterID}{If cluster-robust standard errors are desired, provide a vector of 
   	               length that's identical to the sample size. For example, if n = 6 and clusterID = c(1,1,1,2,2,2), 
@@ -55,16 +58,18 @@ Some procedures (e.g. conditional likelihood ratio test, sensitivity analysis wi
 }
 \references{
   Anderson, T. W. and Rubin, H. (1949). Estimation of the parameters of a single equation in a complete system of stochastic equations. \emph{Annals of Mathematical Statistics} 20, 46-63.\cr
-  
-  Freeman G, Cowling BJ, Schooling CM (2013). Power and Sample Size Calculations for Mendelian Randomization Studies Using One Genetic Instrument. International journal of epidemiology, 42(4), 1157-1163. \cr
-  
+
+  Freeman G., Cowling B. J., Schooling C. M. (2013). Power and Sample Size Calculations for Mendelian Randomization Studies Using One Genetic Instrument. \emph{International Journal of Epidemiology} 42(4), 1157-1163. \cr
+
   Fuller, W. (1977). Some properties of a modification of the limited information estimator. \emph{Econometrica}, 45, 939-953.  \cr
   
-  Wang, X., Jiang, Y., Small, D. and Zhang, N (2017), Sensitivity analysis and power for instrumental variable studies, (under review of Biometrics). \cr
+  Hansen, C., Hausman, J., and Newey, W. (2008) Estimation with many instrumental variables. \emph{Journal of Business \& Economic Statistics} 26(4), 398-422. \cr
   
   Moreira, M. J. (2003). A conditional likelihood ratio test for structural models. \emph{Econometrica} 71, 1027-1048. \cr
+  
+  Sargan, J. D. (1958). The estimation of economic relationships using instrumental variables. Econometrica , 393-415. \cr
 
-  Sargan, J. D. (1958). The estimation of economic relationships using instrumental variables. Econometrica , 393-415. 
+  Wang, X., Jiang, Y., Small, D. and Zhang, N. (2017), Sensitivity analysis and power for instrumental variable studies. \emph{Biometrics} 74(4), 1150-1160.  
   
 }
 \author{Yang Jiang, Hyunseung Kang, and Dylan Small}
