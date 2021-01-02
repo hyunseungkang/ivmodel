@@ -1,5 +1,6 @@
 ivmodelFormula <- function(formula,data,subset,
                             beta0=0,alpha=0.05,k=c(0,1), 
+                            manyweakSE = FALSE,
                             heteroSE = FALSE, clusterID = NULL, 
                             deltarange=NULL, na.action = na.omit) {
   if(!inherits(formula,"formula")) {
