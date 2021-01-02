@@ -7,7 +7,7 @@ importFrom("stats","coef","vcov","delete.response","integrate","lm","model.frame
            "terms","uniroot", "cor", "na.exclude", "na.fail", "na.omit", "na.pass", "var")
 export(condPvalue, invTwobyTwoSymMatrix, quadSolver, KClass, LIML,Fuller,CLR,AR.test,AR.power,AR.size,ARsens.test,
        ARsens.power, ARsens.size, qrrank, qrRM, ivmodel, ivmodelFormula, coef.ivmodel, para, summary.ivmodel, confint.ivmodel, residuals.ivmodel, resid.ivmodel,print.ivmodel,
-fitted.ivmodel,vcov.ivmodel,model.matrix.ivmodel,TSLS.power, TSLS.size, IVpower, IVsize)
+fitted.ivmodel,vcov.ivmodel,model.matrix.ivmodel,TSLS.power, TSLS.size, IVpower, IVsize, coefOther)
 
 
 S3method("coef","ivmodel")
