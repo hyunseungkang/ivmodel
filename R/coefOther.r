@@ -1,7 +1,6 @@
-coefOther <-function(object, ...){
-  if(object$p == 0) stop("There are no additional exogenous covariates!")
-  
-  ivmodel<-object
+coefOther <-function(ivmodel){
+  if(ivmodel$p == 0) stop("There are no additional exogenous covariates!")
+
   coefList = list(); nameList = c()
   if(!is.null(ivmodel$kClass)){
     for(i in 1:length(ivmodel$kClass$k)) {
