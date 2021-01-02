@@ -48,7 +48,7 @@ Xname=c("exper", "expersq", "black", "south", "smsa", "reg661",
 X=card.data[,Xname]
 card.model2IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
 KClass(card.model2IV,
-          k=c(0,1,length(Y)/(length(Y) - ncol(X) - ncol(Z) + 1)))
+          k=c(0,1,0.5))
 
 \dontrun{
 ## The following code tests the mank weak IV standard error for LIML and Fuller.
