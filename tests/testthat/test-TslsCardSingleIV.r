@@ -6,10 +6,10 @@ test_that("TSLS estimate without exogeneous covariates and intercept", {
   Z=card.data[,"nearc4"]
 
   foo = ivmodel(Y=Y,D=D,Z=Z,intercept=FALSE)
-  tsls_output = as.numeric(coef(foo)["TSLS",])
+  tsls_output = as.numeric(coef(foo)["TSLS",-1])
   expect_equal(tsls_output[1],0.4665769)
   expect_equal(tsls_output[2],0.001940093)
-  expect_equal(tsls_output[3],240.4921)
+  expect_equal(tsls_output[3],240.492081152)
   expect_equal(tsls_output[4],0)
 })
 
@@ -19,17 +19,17 @@ test_that("TSLS estimate with intercept, but without exogeneous covariates", {
   Z=card.data[,"nearc4"]
   
   foo = ivmodel(Y=Y,D=D,Z=Z)
-  tsls_output = as.numeric(coef(foo)["TSLS",])
+  tsls_output = as.numeric(coef(foo)["TSLS",-1])
   tsls_other = as.numeric(coefOther(foo)$TSLS)
   
-  expect_equal(tsls_output[1],0.1880626)
-  expect_equal(tsls_output[2],0.02629134)
-  expect_equal(tsls_output[3],7.153025)
+  expect_equal(tsls_output[1],0.188062632758)
+  expect_equal(tsls_output[2],0.026291343964)
+  expect_equal(tsls_output[3],7.15302469953)
   expect_equal(tsls_output[4],1.061464*10^(-12))
   
-  expect_equal(tsls_other[1],3.767417)
-  expect_equal(tsls_other[2],0.34886174)
-  expect_equal(tsls_other[3],10.799326)
+  expect_equal(tsls_other[1],3.767471660374)
+  expect_equal(tsls_other[2],0.348861744657)
+  expect_equal(tsls_other[3],10.79932585924)
   expect_equal(tsls_other[4],1.063760*10^(-26))
 })
 
@@ -42,33 +42,33 @@ test_that("TSLS estimate with exogeneous covariates, but no intercept", {
           "reg668", "smsa66")
   X=card.data[,Xname]
   
-  foo = ivmodel(Y=Y,D=D,Z=Z,X=X)
-  tsls_output = as.numeric(coef(foo)["TSLS",])
+  foo = ivmodel(Y=Y,D=D,Z=Z,X=X,intercept=FALSE)
+  tsls_output = as.numeric(coef(foo)["TSLS",-1])
   tsls_other = coefOther(foo)$TSLS
   
-  expect_equal(tsls_output[1],0.3118728)
-  expect_equal(tsls_output[2],0.0163762)
-  expect_equal(tsls_output[3],19.044)
+  expect_equal(tsls_output[1],0.311872823011726)
+  expect_equal(tsls_output[2],0.01637624982246)
+  expect_equal(tsls_output[3],19.04421503047432)
   expect_equal(tsls_output[4],2.021866*10^(-76))
   
-  other_est = c(0.264680782,-0.006066303,0.010770652,-0.111136195,0.101606674,
-                0.158161633, 0.273710903,0.323305449, 0.231086891, 0.369085137,
-                0.417753001, 0.331919064, -0.000200506, 0.042212715)
+  other_est = c(0.264680781815391,-0.006066303123084,0.010770651971337,-0.111136194883946,0.101606674342650,
+                0.158161632945826 , 0.273710902514624,0.323305448915530, 0.231086891116473,0.369085137097003,
+                0.417753000654896 , 0.331919063677470, -0.000200505471685, 0.042212714810450)
   other_se = c(0.02648192,0.001447105,0.034450887,0.042937923,0.046465209,
                0.106121595,0.096012842,0.09695341,0.117274666,0.101179265,
                0.109812044,0.098736306,0.122609095,0.03775272)
   other_t = c(9.994773149,-4.192026522,0.312637873,-2.588299244,
               2.186725879,1.490381222,2.850773886,3.33464753,1.970475804,
               3.647833736,3.804254861,3.361671871,-0.001635323,1.118137034)
-  other_pval = c(3.688885*10^(-23),2.844794*10^(-5),7.545776*10^(-1),
-                 9.691743*10^(-3),2.883966*10^(-2),1.362293*10^(-1),
-                 4.391135*10^(-3),8.644744*10^(-4),4.887584*10^(-2),
-                 2.689686*10^(-4),1.450737*10^(-4),7.844417*10^(-4),
-                 9.986953*10^(-1),2.635981*10^(-1))
-  expect_equal(tsls_other[,1],other_est)
-  expect_equal(tsls_other[,2],other_se)
-  expect_equal(tsls_other[,3],other_t)
-  expect_equal(tsls_other[,4],other_pval)
+  other_pval = c(3.68888545695*10^(-23),2.84479425579*10^(-5),7.54577566779*10^(-1),
+                 9.69174313767*10^(-3),2.88396560010*10^(-2),1.36229329392*10^(-1),
+                 4.39113473619*10^(-3),8.64474417991*10^(-4),4.88758353229*10^(-2),
+                 2.68968590078*10^(-4),1.45073675929*10^(-4),7.84441650405*10^(-4),
+                 9.98695310526*10^(-1),2.63598148986*10^(-1))
+  expect_equal(as.numeric(tsls_other[,1]),other_est)
+  expect_equal(as.numeric(tsls_other[,2]),other_se)
+  expect_equal(as.numeric(tsls_other[,3]),other_t)
+  expect_equal(as.numeric(tsls_other[,4]),other_pval)
 })
 
 test_that("TSLS estimate with exogeneous covariates and intercept", {
@@ -81,7 +81,7 @@ test_that("TSLS estimate with exogeneous covariates and intercept", {
   X=card.data[,Xname]
   
   foo = ivmodel(Y=Y,D=D,Z=Z,X=X)
-  tsls_output = as.numeric(coef(foo)["TSLS",])
+  tsls_output = as.numeric(coef(foo)["TSLS",-1])
   tsls_other = coefOther(foo)$TSLS
   
   expect_equal(tsls_output[1],0.131503836)
@@ -101,15 +101,15 @@ test_that("TSLS estimate with exogeneous covariates and intercept", {
               3.5313104,-2.5784441,-0.2141305,1.2726189,
               -1.5401083,0.8193171,1.0461258,0.5479969,
               -3.7642715,0.8575805,4.0365551)
-  other_pval = c(4.922903*10^(-6),3.116125*10^(-12),6.504377*10^(-3),
-                 1.226626*10^(-7),4.197459*10^(-4),9.971984*10^(-3),
-                 8.304598*10^(-1),2.032521*10^(-1),1.236396*10^(-1),
-                 4.126707*10^(-1),2.955874*10^(-1),5.837349*10^(-1),
-                 1.702429*10^(-4),3.911928*10^(-1),5.560083*10^(-5))
-  expect_equal(tsls_other[,1],other_est)
-  expect_equal(tsls_other[,2],other_se)
-  expect_equal(tsls_other[,3],other_t)
-  expect_equal(tsls_other[,4],other_pval)
+  other_pval = c(4.92290320848*10^(-6),3.11612469442*10^(-12),6.50437654555*10^(-3),
+                 1.22662588576*10^(-7),4.19745945432*10^(-4),9.97198409145*10^(-3),
+                 8.30459836493*10^(-1),2.03252114106*10^(-1),1.23639625283*10^(-1),
+                 4.12670726440*10^(-1),2.95587380542*10^(-1),5.83734887817*10^(-1),
+                 1.70242896565*10^(-4),3.91192788096*10^(-1),5.56008327986*10^(-5))
+  expect_equal(as.numeric(tsls_other[,1]),other_est)
+  expect_equal(as.numeric(tsls_other[,2]),other_se)
+  expect_equal(as.numeric(tsls_other[,3]),other_t)
+  expect_equal(as.numeric(tsls_other[,4]),other_pval)
 })
 
   
