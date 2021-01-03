@@ -43,6 +43,10 @@ X=card.data[,Xname]
 card.model1IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
 card.model1IV
 
+# Obtain estimates of exogenous covariates' effects on outcome under #
+# different k-class estimatos                                        #
+coefOther(card.model1IV)
+
 # Multiple IV Analysis with Proximito to 2yr and 4yr Colleges as IVs#
 Z = card.data[,c("nearc4","nearc2")]
 card.model2IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
