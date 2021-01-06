@@ -20,6 +20,7 @@ vcov.ivmodel<-function(object, ...){
     vcovmat <- rbind(vcovmat, temp)
   }
   
-  vcovmat<-vcovmat[sort(vcovmat[,1], index.return=T)$ix,]  
+  vcovmat<-vcovmat[sort(vcovmat[,1], index.return=T)$ix,] 
+  vcovmat[,"Endogenous variable"] = (vcovmat[,"Endogenous variable"])^2
   return(vcovmat)
 }

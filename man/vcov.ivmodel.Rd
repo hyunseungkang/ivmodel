@@ -1,7 +1,7 @@
 \name{vcov.ivmodel}
 \alias{vcov.ivmodel}
 \title{Calculate Variance-Covariance Matrix (i.e. Standard Error) for k-Class Estimators in the \code{ivmodel} Object}
-\description{This \code{vcov} method returns the variance-covariance matrix, or equivalently the standard errors, for all specified k-Class estimation from an \code{ivmodel} object.}
+\description{This \code{vcov} method returns the variance-covariance matrix for all specified k-Class estimation from an \code{ivmodel} object.}
 \usage{
 \method{vcov}{ivmodel}(object,...)
 }
