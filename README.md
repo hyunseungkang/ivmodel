@@ -51,6 +51,11 @@ coefOther(card.model1IV)
 Z = card.data[,c("nearc4","nearc2")]
 card.model2IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
 card.model2IV
+
+# Use the formula environment
+X = as.matrix(X)
+card.modelFormula = ivmodelFormula(Y ~ D + X | Z + X)
+card.modelFormula
 ```
 
 ## References 
