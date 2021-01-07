@@ -12,7 +12,7 @@
   \item{\dots}{Additional arguments to \code{residuals} or \code{resid}.}
 }
 \value{
-A matrix of residuals for each k-Class estimator. Specifically, each column of the matrix represents residuals for each individual based on different estimates of the treatment effect from k-Class estimators. By default, one of the columns of the matrix is the residuals when the treatment effect is estimated by ordinarly least squares (OLS). Because OLS is generally biased in instrumental variables settings, the residuals will likely be biased. However, comparing the residuals from OLS to those from two-stage least squares or other k-Class estimators may shed some light about the nature of the treatment effect or the underlying estimators.
+A matrix of residuals for each k-Class estimator. Specifically, each column of the matrix represents residuals for each individual based on different estimates of the treatment effect from k-Class estimators. By default, one of the columns of the matrix is the residuals when the treatment effect is estimated by ordinarly least squares (OLS). Because OLS is generally biased in instrumental variables settings, the residuals will likely be biased.
 }
 \author{Yang Jiang, Hyunseung Kang, and Dylan Small}
 \seealso{See also \code{\link{ivmodel}} for details on the instrumental variables model.}
