@@ -3,7 +3,7 @@ Type: Package
 Title: Statistical Inference and Sensitivity Analysis for Instrumental
         Variables Model
 Version: 1.9.0
-Date: 2021-01-02
+Date: 2021-01-13
 Author: Hyunseung Kang, Yang Jiang, Qingyuan Zhao, and Dylan Small
 Maintainer: Hyunseung Kang <hyunseung@stat.wisc.edu>
 Description: Carries out instrumental variable
@@ -15,6 +15,5 @@ LazyData: true
 RoxygenNote: 6.0.1
 NeedsCompilation: no
 Repository: CRAN
-Packaged: 2020-06-01 16:16:37 UTC; zjbranson
 Suggests: 
     testthat
