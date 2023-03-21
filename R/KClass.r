@@ -40,84 +40,78 @@ KClass = function(ivmodel,
   
   for(i in 1:length(k)) {
     rankInverse = qrrank(qr(t(W) %*% W - k[i] * t(W) %*% qr.resid(ZXQR,W)))
-    if(rankInverse < ncol(W)) stop("k is out-of-range; the matrix inversion in the k-class estimator will fail.")
+    #if(rankInverse < ncol(W)) stop("k is out-of-range; the matrix inversion in the k-class estimator will fail.")
     inverseMat = solve(t(W) %*% W - k[i] * t(W) %*% qr.resid(ZXQR,W))
     kPointEst[i,] = as.numeric(inverseMat %*% ( t(W) %*% Y - k[i] *t(W) %*% qr.resid(ZXQR,Y)))
-    if(1 <= 0) { #k exceeds the maximum possible value
-	    kVarPointEst[i,] = NA; 
-	    kCILower[i,] = c(NA,NA); kCIUpper[i,] = c(NA,NA);
-    } else {
-        if (manyweakSE && k[i] != 0) { ## From Hansen et al. (2008)
-            udelta = as.numeric(Y - W %*% kPointEst[i,])
-            sigmahat.sq = sum(udelta^2)/(ivmodel$n-ncol(W))
-            alphatilde = sum( qr.fitted(ZXQR,udelta)^2)/sum(udelta^2)
-            iotahat = qr.fitted(ZXQR,W)
-            Xtilde = W - t(t(udelta)) %*% (t(udelta) %*% W) / sum(udelta^2)
-            Vhat = qr.resid(ZXQR,Xtilde)
-            Ptt = diag(W %*% solve(t(W) %*% W) %*% t(W))
-            kappa = sum(Ptt^2)/ivmodel$L 
-            tauT = ivmodel$L / ivmodel$n
+
+    if (manyweakSE && k[i] != 0) { ## From Hansen et al. (2008)
+        udelta = as.numeric(Y - W %*% kPointEst[i,])
+        sigmahat.sq = sum(udelta^2)/(ivmodel$n-ncol(W))
+        alphatilde = sum( qr.fitted(ZXQR,udelta)^2)/sum(udelta^2)
+        iotahat = qr.fitted(ZXQR,W)
+        Xtilde = W - t(t(udelta)) %*% (t(udelta) %*% W) / sum(udelta^2)
+        Vhat = qr.resid(ZXQR,Xtilde)
+        Ptt = diag(W %*% solve(t(W) %*% W) %*% t(W))
+        kappa = sum(Ptt^2)/ivmodel$L 
+        tauT = ivmodel$L / ivmodel$n
             
-            H = t(W) %*% qr.fitted(ZXQR,W) - alphatilde * t(W) %*% W
-            sigmaB = sigmahat.sq * ( (1-alphatilde)^2 * t(Xtilde) %*% qr.fitted(ZXQR,Xtilde) + alphatilde^2 *  t(Xtilde) %*% qr.resid(ZXQR,Xtilde))
-            A_other = matrix(0,1,ncol(sigmaB))
-            for(j in 1:ivmodel$n) {
-              A_other = A_other + udelta[j]^2 * Vhat[j,,drop=FALSE] / ivmodel$n
-            }
-            A = matrix(0,nrow(sigmaB),ncol(sigmaB))
-            B = matrix(0,nrow(sigmaB),ncol(sigmaB))
-            for(j in 1:ivmodel$n) {
-              A = A + (Ptt[j] - tauT) * (t(iotahat[j,,drop=FALSE]) %*% A_other)
-              B = B + (udelta[j]^2 - sigmahat.sq) * (t(Vhat[j,,drop=FALSE]) %*% Vhat[j,,drop=FALSE])
-            }
-            B = ivmodel$L * (kappa - tauT) * B / (ivmodel$n*(1-2*tauT + kappa * tauT))
-            Sigmahat = sigmaB + A + t(A) + B
+        H = t(W) %*% qr.fitted(ZXQR,W) - alphatilde * t(W) %*% W
+        sigmaB = sigmahat.sq * ( (1-alphatilde)^2 * t(Xtilde) %*% qr.fitted(ZXQR,Xtilde) + alphatilde^2 *  t(Xtilde) %*% qr.resid(ZXQR,Xtilde))
+        A_other = matrix(0,1,ncol(sigmaB))
+        for(j in 1:ivmodel$n) {
+          A_other = A_other + udelta[j]^2 * Vhat[j,,drop=FALSE] / ivmodel$n
+        }
+        A = matrix(0,nrow(sigmaB),ncol(sigmaB))
+        B = matrix(0,nrow(sigmaB),ncol(sigmaB))
+        for(j in 1:ivmodel$n) {
+          A = A + (Ptt[j] - tauT) * (t(iotahat[j,,drop=FALSE]) %*% A_other)
+          B = B + (udelta[j]^2 - sigmahat.sq) * (t(Vhat[j,,drop=FALSE]) %*% Vhat[j,,drop=FALSE])
+        }
+        B = ivmodel$L * (kappa - tauT) * B / (ivmodel$n*(1-2*tauT + kappa * tauT))
+        Sigmahat = sigmaB + A + t(A) + B
             
-            Hinv = solve(H)
-            Lambdahat = Hinv  %*% Sigmahat %*% Hinv 
-            kVarPointEst[i,] = diag(Lambdahat)
-            print("hello world")
-        
-        } else if (heteroSE || (manyweakSE &&k[i] == 0)) {
-          inner = matrix(0,ncol(W),ncol(W))
-          for(j in 1:length(Y)) {
-            adjustVec = as.numeric(W[j,]) - as.numeric(k[i]*qr.resid(ZXQR,W)[j,])
-            inner = inner + (Y[j] - sum(W[j,] * kPointEst[i,]))^2 * (t(t(adjustVec)) %*% t(adjustVec) )
-          }
-          kVarPointEst[i,] = diag(inverseMat %*% inner %*% inverseMat)
-	      } else if(!is.null(clusterID)){
-	  	    if(length(clusterID) != ivmodel$n) {
-	  		    ### Missing problem here needs to be taken care of ###
-	  		    print("Cluster ID vector is not the same length as the sample size")
-	  		    return(NULL)
+        Hinv = solve(H)
+        Lambdahat = Hinv  %*% Sigmahat %*% Hinv 
+        kVarPointEst[i,] = diag(Lambdahat)
+    } else if (heteroSE || (manyweakSE &&k[i] == 0)) {
+        inner = matrix(0,ncol(W),ncol(W))
+        for(j in 1:length(Y)) {
+          adjustVec = as.numeric(W[j,]) - as.numeric(k[i]*qr.resid(ZXQR,W)[j,])
+          inner = inner + (Y[j] - sum(W[j,] * kPointEst[i,]))^2 * (t(t(adjustVec)) %*% t(adjustVec) )
+        }
+        kVarPointEst[i,] = diag(inverseMat %*% inner %*% inverseMat)
+	   } else if(!is.null(clusterID)){
+	  	  if(length(clusterID) != ivmodel$n) {
+	  		   ### Missing problem here needs to be taken care of ###
+	  	 	   print("Cluster ID vector is not the same length as the sample size")
+	  		   return(NULL)
+	      }
+	  	  if(!is.character(clusterID) && !is.factor(clusterID) && !is.numeric(clusterID)) {
+	  		   print("Cluster ID must be either a character vector, a factor vector, or a numeric vector")
+	  		   return(NULL)
+	  	  }
+	  	  clusterID = as.factor(clusterID)
+	  	  clusterID = as.numeric(clusterID)
+	  	  nCluster <- length(unique(clusterID)); uniqueclusterID = unique(clusterID)
+	  	  inner = matrix(0,ncol(W),ncol(W))
+	  	  for(j in uniqueclusterID) {
+	  	    clusterSame = which(clusterID == j)
+	  	    innerC = rep(0,ncol(W))
+	  	    for(t in clusterSame) {
+	  	      innerC = innerC + (Y[t] - sum(W[t,] * kPointEst[i,])) * 
+	  	                (as.numeric(W[t,]) - as.numeric(k[i]*qr.resid(ZXQR,W)[t,]))
 	  	    }
-	  	    if(!is.character(clusterID) && !is.factor(clusterID) && !is.numeric(clusterID)) {
-	  		    print("Cluster ID must be either a character vector, a factor vector, or a numeric vector")
-	  		    return(NULL)
-	  	    }
-	  	    clusterID = as.factor(clusterID)
-	  	    clusterID = as.numeric(clusterID)
-	  	    nCluster <- length(unique(clusterID)); uniqueclusterID = unique(clusterID)
-	  	    inner = matrix(0,ncol(W),ncol(W))
-	  	    for(j in uniqueclusterID) {
-	  	      clusterSame = which(clusterID == j)
-	  	      innerC = rep(0,ncol(W))
-	  	      for(t in clusterSame) {
-	  	        innerC = innerC + (Y[t] - sum(W[t,] * kPointEst[i,])) * 
-	  	                      (as.numeric(W[t,]) - as.numeric(k[i]*qr.resid(ZXQR,W)[t,]))
-	  	      }
-	  	      inner = inner + t(t(innerC)) %*% t(innerC)
-	  	    }
+	  	    inner = inner + t(t(innerC)) %*% t(innerC)
+	  	  }
 	  	    kVarPointEst[i,] = diag(inverseMat %*% inner %*% inverseMat)
 	    }
 	    else {
 	      kVarPointEst[i,] = 1/degF * sum( (Y - W %*% kPointEst[i,])^2) * diag(inverseMat)
 	    }
 	  # Note that R's AER package uses the z-scores instead of the t distribution. They are basically the same as n gets large.
-	    kCILower[i,] = kPointEst[i,] - qt(1-alpha/2,degF) * sqrt(kVarPointEst[i,])
-	    kCIUpper[i,] = kPointEst[i,] + qt(1-alpha/2,degF) * sqrt(kVarPointEst[i,])
+	   kCILower[i,] = kPointEst[i,] - qt(1-alpha/2,degF) * sqrt(kVarPointEst[i,])
+	   kCIUpper[i,] = kPointEst[i,] + qt(1-alpha/2,degF) * sqrt(kVarPointEst[i,])
 	    
-    }
   }
 
   # Compute test statistics
