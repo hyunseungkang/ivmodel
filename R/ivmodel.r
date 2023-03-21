@@ -40,7 +40,7 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
   # Error checking: check Z and convert "strings" into factors
   #                 convert logical Z to numeric Z
   Z = data.frame(Z); stringIndex = sapply(Z,is.character); Z[,stringIndex] = lapply(Z[,stringIndex],as.factor)
-  logicalIndex = sapply(Z,is.logical); Z[,logicalIndex] = lapply(Z[,logicalIndex],as.numeric)
+  logicalIndex = sapply(Z,is.logical); Z[,logicalIndex] = Z[,logicalIndex] + 0;
   if(nrow(Z) != length(Y)) stop("Row dimension of Z and Y are not equal!")
   colnames(Z) = paste("Z",colnames(Z),sep="")
 
@@ -48,7 +48,7 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
   #                 convert logical X to numeric X
   if(!missing(X)) {
     X = data.frame(X); stringIndex = sapply(X,is.character); X[,stringIndex] = lapply(X[,stringIndex],as.factor)
-    logicalIndex = sapply(X,is.logical); X[,logicalIndex] = lapply(X[,logicalIndex],as.numeric)
+    logicalIndex = sapply(X,is.logical); X[,logicalIndex] = X[,logicalIndex] + 0
 	  if(nrow(X) != length(Y)) stop("Row dimension of X and Y are not equal!")
 	  colnames(X) = paste("X",colnames(X),sep="")
   }
