@@ -1,12 +1,12 @@
 ### functions for QR or sparseQR class
 qrrank<-function(QR, tol=1e-8){
-  if(class(QR)=="sparseQR")
+  if(inherits(QR,"sparseQR"))
     return(sum(abs(diag(QR@R))>tol))
   else
     return(QR$rank)
 }
 qrRM<-function(QR){
-  if(class(QR)=="sparseQR")
+  if(inherits(QR,"sparseQR"))
     return(qrR(QR))
   else
     return(qr.R(QR))

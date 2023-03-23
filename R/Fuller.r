@@ -9,7 +9,7 @@ Fuller = function(ivmodel,
                   beta0=0,alpha=0.05,b=1,
                   manyweakSE=FALSE,heteroSE=FALSE,clusterID=NULL) {
   # Error checking
-  if(class(ivmodel) != "ivmodel") {
+  if(!inherits(ivmodel,"ivmodel")) {
     print("Fuller: You must supply an ivmodel class. See ivmodel function for details")
 	return(NULL)
   }

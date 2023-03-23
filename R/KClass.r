@@ -17,7 +17,7 @@ KClass = function(ivmodel,
                   beta0=0,alpha=0.05,k=c(0,1),
                   manyweakSE=FALSE,heteroSE=FALSE,clusterID=NULL) {
   # Error checking
-  if(class(ivmodel) != "ivmodel") {
+  if(!inherits(ivmodel,"ivmodel")) {
     print("You must supply an ivmodel class. Run ivmodel() and see ivmodel() function for details")
     return(NULL)
   }

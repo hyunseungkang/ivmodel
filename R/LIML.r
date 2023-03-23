@@ -6,7 +6,7 @@
 ### OUTPUT: a list of point estimate, standard error, test statistic, and p-value
 LIML = function(ivmodel,beta0=0,alpha=0.05,manyweakSE=FALSE,heteroSE=FALSE,clusterID=NULL) {
   # Error checking
-  if(class(ivmodel) != "ivmodel") {
+  if(!inherits(ivmodel,"ivmodel")) {
     print("LIML: You must supply an ivmodel class. See ivmodel function for details")
     return(NULL)
   }

@@ -32,7 +32,7 @@ condPvalue <- function(m,qT,k,df2,eps = 0.02) {
 ### OUTPUT: a list of point estimate, standard error, test statistic, and p-value
 CLR = function(ivmodel,beta0=0,alpha=0.05) {
   # Error checking
-  if(class(ivmodel) != "ivmodel") {
+  if(!inherits(ivmodel,"ivmodel")) {
     print("CLR: You must supply an ivmodel class. See ivmodel function for details")
 	return(NULL)
   }
