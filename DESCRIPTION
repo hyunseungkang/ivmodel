@@ -3,7 +3,7 @@ Type: Package
 Title: Statistical Inference and Sensitivity Analysis for Instrumental
         Variables Model
 Version: 1.9.1
-Date: 2023-03-23
+Date: 2023-04-08
 Author: Hyunseung Kang, Yang Jiang, Qingyuan Zhao, and Dylan Small
 Maintainer: Hyunseung Kang <hyunseung@stat.wisc.edu>
 Description: Carries out instrumental variable
