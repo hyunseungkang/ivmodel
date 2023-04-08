@@ -63,6 +63,6 @@ Card, D. (1995). "Using Geographic Variations in College Proximity to Estimate t
 to Schooling.” In LN Christofides, EK Grant, R Swidinsky (eds.), Aspects of Labor Market
 Behaviour: Essays in Honour of John Vanderkamp. University of Toronto Press. 
 
-Kang, H., Jiang, Y., Zhao, Q., and Small, D. S. (2021). <a href="https://obsstudies.org/wp-content/uploads/2021/01/ObsStudy_revision_published.pdf">ivmodel: An R Package for Inference and Sensitivity Analysis of Instrumental Variables Models with One Endogenous Variable.</a> Observational Studies. 7:1-24.
+Kang, H., Jiang, Y., Zhao, Q., and Small, D. S. (2021). <a href="https://muse.jhu.edu/article/804372">ivmodel: An R Package for Inference and Sensitivity Analysis of Instrumental Variables Models with One Endogenous Variable.</a> Observational Studies. 7:1-24.
 
 Branson, Z., Keele, J. (2020). <a href="https://academic.oup.com/aje/advance-article-abstract/doi/10.1093/aje/kwaa089/5840886"> Evaluating A Key Instrumental Variable Assumption Using Randomization Tests.</a> American Journal of Epidemiology.
