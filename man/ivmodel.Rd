@@ -71,7 +71,7 @@ Some procedures (e.g. conditional likelihood ratio test, sensitivity analysis wi
 
   Fuller, W. (1977). Some properties of a modification of the limited information estimator. \emph{Econometrica}, 45, 939-953.  \cr
   
-  Hansen, C., Hausman, J., and Newey, W. (2008) Estimation with many instrumental variables. \emph{Journal of Business \& Economic Statistics} 26(4), 398-422. \cr
+  Hansen, C., Hausman, J., and Newey, W. (2008) Estimation with many instrumental variables. \emph{Journal of Business and Economic Statistics} 26(4), 398-422. \cr
   
   Moreira, M. J. (2003). A conditional likelihood ratio test for structural models. \emph{Econometrica} 71, 1027-1048. \cr
   
