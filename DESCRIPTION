@@ -13,6 +13,8 @@ Imports: stats,Matrix,Formula,reshape2,ggplot2
 License: GPL-2 | file LICENSE
 LazyData: true
 RoxygenNote: 7.2.3
+URL: https://github.com/hyunseungkang/ivmodel
+BugReports: https://github.com/hyunseungkang/ivmodel/issues
 NeedsCompilation: no
 Repository: CRAN
 Suggests: 
